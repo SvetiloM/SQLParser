@@ -1,27 +1,14 @@
 package org.example.entity;
 
-import java.util.HashMap;
-import java.util.Map;
+public interface PartType {
 
-public enum PartType {
-    COLUMNS("select"),
-    TABLES("from");
+    String getValue();
 
-    private final String reservedWord;
+    Direction getDirection();
 
-    private static final Map<String, PartType> values = new HashMap<>();
-
-    static {
-        for (PartType value : PartType.values()) {
-            values.put(value.reservedWord, value);
-        }
+    enum Direction {
+        BEFORE,
+        AFTER
     }
 
-    PartType(String reservedWord) {
-        this.reservedWord = reservedWord;
-    }
-
-    public static PartType getByReservedWord(String name) {
-        return values.get(name);
-    }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class Select implements Serializable {
-    private List<String> columns;
+    private List<Column> columns;
     private String table;
 }
 

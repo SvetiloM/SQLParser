@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public class Part {
-    private final PartType type;
+public class Part<E> {
+    private final E type;
     private final String part;
 }
