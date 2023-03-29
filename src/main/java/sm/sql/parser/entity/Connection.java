@@ -9,9 +9,9 @@ public class Connection implements Condition{
     //todo condition
     private Object left;
     private Object right;
-    private Connection connection;
+    private ConnectionType connectionType;
 
-    public enum Connection {
+    public enum ConnectionType {
         OR,
         AND
     }

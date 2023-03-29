@@ -7,7 +7,9 @@ public enum QueryPartType implements PartType {
 
     COLUMNS("select", Direction.AFTER),
     TABLES("from", Direction.AFTER),
-    WHERE("where", Direction.AFTER);
+    WHERE("where", Direction.AFTER),
+    GROUP_BY("group by", Direction.AFTER),
+    HAVING("having", Direction.AFTER);
 
     private final String reservedWord;
     private final Direction direction;

@@ -30,19 +30,19 @@ public class ConnectionParser implements Parser {
     private void parse(Part<ConnectionPartType> part, Connection connection) {
         switch (part.getType()) {
             case OR_LEFT -> {
-                connection.setConnection(Connection.Connection.OR);
+                connection.setConnectionType(Connection.ConnectionType.OR);
                 connection.setLeft(goDeeper(part));
             }
             case OR_RIGHT -> {
-                connection.setConnection(Connection.Connection.OR);
+                connection.setConnectionType(Connection.ConnectionType.OR);
                 connection.setRight(goDeeper(part));
             }
             case AND_LEFT -> {
-                connection.setConnection(Connection.Connection.AND);
+                connection.setConnectionType(Connection.ConnectionType.AND);
                 connection.setLeft(goDeeper(part));
             }
             case AND_RIGHT -> {
-                connection.setConnection(Connection.Connection.AND);
+                connection.setConnectionType(Connection.ConnectionType.AND);
                 connection.setRight(goDeeper(part));
             }
         }

@@ -18,7 +18,6 @@ public class ParseService {
     private final ColumnParser columnParser;
     private final JoinParser joinParser;
     private final ConditionParser conditionParser;
-    private final ConnectionParser connectionParser;
 
     public Select parse(String s) {
         List<Part<QueryPartType>> parts = partParser.getParts(s);
@@ -34,7 +33,9 @@ public class ParseService {
         switch (part.getType()) {
             case COLUMNS -> select.setColumns(columnParser.parse(part));
             case TABLES -> select.setTable(joinParser.parse(part));
-            case WHERE -> select.setConnectedCondition(connectionParser.parse(part));
+            case WHERE -> select.setConnectedCondition(conditionParser.parse(part));
+            case GROUP_BY -> select.setGroupBy(columnParser.parse(part));
+            case HAVING -> select.setHaving(conditionParser.parse(part));
         }
     }
 }
