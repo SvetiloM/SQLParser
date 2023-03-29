@@ -18,7 +18,7 @@ public class ParseService {
     private final ColumnParser columnParser;
     private final JoinParser joinParser;
     private final ConditionParser conditionParser;
-    private final WhereParser whereParser;
+    private final ConnectionParser connectionParser;
 
     public Select parse(String s) {
         List<Part<QueryPartType>> parts = partParser.getParts(s);
@@ -34,7 +34,7 @@ public class ParseService {
         switch (part.getType()) {
             case COLUMNS -> select.setColumns(columnParser.parse(part));
             case TABLES -> select.setTable(joinParser.parse(part));
-            case WHERE -> select.setWhere(whereParser.parse(part));
+            case WHERE -> select.setConnectedCondition(connectionParser.parse(part));
         }
     }
 }

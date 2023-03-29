@@ -1,6 +1,6 @@
 package sm.sql.parser.entity.part;
 
-public enum ConditionPartType implements PartType {
+public enum ComparisonPartType implements PartType {
     EQUAL_LEFT("=", Direction.BEFORE),
     EQUAL_RIGHT("=", Direction.AFTER),
     MORE_LEFT(">", Direction.BEFORE),
@@ -23,7 +23,7 @@ public enum ConditionPartType implements PartType {
     private final String reservedWord;
     private final Direction direction;
 
-    private static final ConditionPartType[] compositeValues = new ConditionPartType[]{
+    private static final ComparisonPartType[] compositeValues = new ComparisonPartType[]{
             MORE_OR_EQUAL_LEFT,
             MORE_OR_EQUAL_RIGHT,
             LESS_OR_EQUAL_LEFT,
@@ -39,12 +39,12 @@ public enum ConditionPartType implements PartType {
     };
 
 
-    ConditionPartType(String reservedWord, Direction direction) {
+    ComparisonPartType(String reservedWord, Direction direction) {
         this.reservedWord = reservedWord;
         this.direction = direction;
     }
 
-    public static ConditionPartType[] getCompositeValues() {
+    public static ComparisonPartType[] getCompositeValues() {
         return compositeValues;
     }
 

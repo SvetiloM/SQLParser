@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Where {
+public class Connection implements Condition{
     //todo condition
     private Object left;
     private Object right;

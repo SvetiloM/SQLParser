@@ -12,7 +12,7 @@ import java.util.List;
 public class Select implements Serializable {
     private List<Column> columns;
     private TableReference table;
-    private Where where;
+    private Condition connectedCondition;
 }
 
 
