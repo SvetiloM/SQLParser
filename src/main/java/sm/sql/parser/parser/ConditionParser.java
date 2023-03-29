@@ -15,11 +15,16 @@ import java.util.List;
 public class ConditionParser implements Parser {
 
     private final PartParser<ConditionPartType> partParser = new PartParser<>(ConditionPartType.values());
+    private final PartParser<ConditionPartType> compositePartParser = new PartParser<>(ConditionPartType.getCompositeValues());
     private final ColumnParser columnParser;
 
     @Override
     public Condition parse(Part part) {
-        List<Part<ConditionPartType>> parts = partParser.getParts(part.getPart());
+        List<Part<ConditionPartType>> parts = compositePartParser.getParts(part.getPart());
+        if (parts.size() == 0) {
+            parts = partParser.getParts(part.getPart());
+        }
+        if (parts.size() == 0) return null;
         val connection = new Condition();
         for (Part<ConditionPartType> connectionPart : parts) {
             parse(connectionPart, connection);
@@ -28,17 +33,90 @@ public class ConditionParser implements Parser {
 
     }
 
-    private void parse(Part<ConditionPartType> part, Condition Condition) {
+    private void parse(Part<ConditionPartType> part, Condition condition) {
         switch (part.getType()) {
             case EQUAL_LEFT -> {
-                //todo columns? change
-                Condition.setType(ConnectionType.EQUAL);
-                Condition.setLeft(columnParser.parse(part));
+                condition.setType(ConnectionType.EQUAL);
+                condition.setLeft(goDeeper(part));
             }
             case EQUAL_RIGHT -> {
-                Condition.setType(ConnectionType.EQUAL);
-                Condition.setRight(columnParser.parse(part));
+                condition.setType(ConnectionType.EQUAL);
+                condition.setRight(goDeeper(part));
             }
+            case MORE_LEFT -> {
+                condition.setType(ConnectionType.MORE);
+                condition.setLeft(goDeeper(part));
+            }
+            case MORE_RIGHT -> {
+                condition.setType(ConnectionType.MORE);
+                condition.setRight(goDeeper(part));
+            }
+            case LESS_LEFT -> {
+                condition.setType(ConnectionType.LESS);
+                condition.setLeft(goDeeper(part));
+            }
+            case LESS_RIGHT -> {
+                condition.setType(ConnectionType.LESS);
+                condition.setRight(goDeeper(part));
+            }
+            case MORE_OR_EQUAL_LEFT -> {
+                condition.setType(ConnectionType.MORE_OR_EQUAL);
+                condition.setLeft(goDeeper(part));
+            }
+            case MORE_OR_EQUAL_RIGHT -> {
+                condition.setType(ConnectionType.MORE_OR_EQUAL);
+                condition.setRight(goDeeper(part));
+            }
+            case LESS_OR_EQUAL_LEFT -> {
+                condition.setType(ConnectionType.LESS_OR_EQUAL);
+                condition.setLeft(goDeeper(part));
+            }
+            case LESS_OR_EQUAL_RIGHT -> {
+                condition.setType(ConnectionType.LESS_OR_EQUAL);
+                condition.setRight(goDeeper(part));
+            }
+            case NOT_EQUAL_LEFT -> {
+                condition.setType(ConnectionType.NOT_EQUAL);
+                condition.setLeft(goDeeper(part));
+            }
+            case NOT_EQUAL_RIGHT -> {
+                condition.setType(ConnectionType.NOT_EQUAL);
+                condition.setRight(goDeeper(part));
+            }
+            case NOT_EQUAL_EXCL_LEFT -> {
+                condition.setType(ConnectionType.NOT_EQUAL_EXCL);
+                condition.setLeft(goDeeper(part));
+            }
+            case NOT_EQUAL_EXCL_RIGHT -> {
+                condition.setType(ConnectionType.NOT_EQUAL_EXCL);
+                condition.setRight(goDeeper(part));
+            }
+            case NOT_LESS_LEFT -> {
+                condition.setType(ConnectionType.NOT_LESS);
+                condition.setLeft(goDeeper(part));
+            }
+            case NOT_LESS_RIGHT -> {
+                condition.setType(ConnectionType.NOT_LESS);
+                condition.setRight(goDeeper(part));
+            }
+            case NOT_MORE_LEFT -> {
+                condition.setType(ConnectionType.NOT_MORE);
+                condition.setLeft(goDeeper(part));
+            }
+            case NOT_MORE_RIGHT -> {
+                condition.setType(ConnectionType.NOT_MORE);
+                condition.setRight(goDeeper(part));
+            }
+        }
+    }
+
+    private Object goDeeper(Part<ConditionPartType> part) {
+        Condition innerCondition = parse(part);
+        //todo optional
+        if (innerCondition == null) {
+            return columnParser.parse(part);
+        } else {
+            return innerCondition;
         }
     }
 }

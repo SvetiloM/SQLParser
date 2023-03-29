@@ -1,34 +1,51 @@
 package sm.sql.parser.entity.part;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public enum ConditionPartType implements PartType {
     EQUAL_LEFT("=", Direction.BEFORE),
-    EQUAL_RIGHT("=", Direction.AFTER);
+    EQUAL_RIGHT("=", Direction.AFTER),
+    MORE_LEFT(">", Direction.BEFORE),
+    MORE_RIGHT(">", Direction.AFTER),
+    LESS_LEFT("<", Direction.BEFORE),
+    LESS_RIGHT("<", Direction.AFTER),
+    MORE_OR_EQUAL_LEFT(">=", Direction.BEFORE),
+    MORE_OR_EQUAL_RIGHT(">=", Direction.AFTER),
+    LESS_OR_EQUAL_LEFT("<=", Direction.BEFORE),
+    LESS_OR_EQUAL_RIGHT("<=", Direction.AFTER),
+    NOT_EQUAL_LEFT("<>", Direction.BEFORE),
+    NOT_EQUAL_RIGHT("<>", Direction.AFTER),
+    NOT_EQUAL_EXCL_LEFT("!=", Direction.BEFORE),
+    NOT_EQUAL_EXCL_RIGHT("!=", Direction.AFTER),
+    NOT_LESS_LEFT("!<", Direction.BEFORE),
+    NOT_LESS_RIGHT("!<", Direction.AFTER),
+    NOT_MORE_LEFT("!>", Direction.BEFORE),
+    NOT_MORE_RIGHT("!>", Direction.AFTER);
 
     private final String reservedWord;
     private final Direction direction;
 
-    private static final Map<String, PartType> values = new HashMap<>();
+    private static final ConditionPartType[] compositeValues = new ConditionPartType[]{
+            MORE_OR_EQUAL_LEFT,
+            MORE_OR_EQUAL_RIGHT,
+            LESS_OR_EQUAL_LEFT,
+            LESS_OR_EQUAL_RIGHT,
+            NOT_EQUAL_LEFT,
+            NOT_EQUAL_RIGHT,
+            NOT_EQUAL_EXCL_LEFT,
+            NOT_EQUAL_EXCL_RIGHT,
+            NOT_LESS_LEFT,
+            NOT_LESS_RIGHT,
+            NOT_MORE_LEFT,
+            NOT_MORE_RIGHT
+    };
 
-    static {
-        for (ConditionPartType value : ConditionPartType.values()) {
-            values.put(value.reservedWord, value);
-        }
-    }
 
     ConditionPartType(String reservedWord, Direction direction) {
         this.reservedWord = reservedWord;
         this.direction = direction;
     }
 
-    public static PartType getByReservedWord(String name) {
-        return values.get(name);
-    }
-
-    public static String[] getReservedWords() {
-        return values.keySet().toArray(new String[0]);
+    public static ConditionPartType[] getCompositeValues() {
+        return compositeValues;
     }
 
     public String getValue() {
