@@ -10,7 +10,9 @@ public enum QueryPartType implements PartType {
     WHERE("where", Direction.AFTER),
     GROUP_BY("group by", Direction.AFTER),
     HAVING("having", Direction.AFTER),
-    ORDER_BY("order by", Direction.AFTER);
+    ORDER_BY("order by", Direction.AFTER),
+    LIMIT("limit", Direction.AFTER),
+    OFFSET("offset", Direction.AFTER),;
 
     private final String reservedWord;
     private final Direction direction;

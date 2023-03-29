@@ -39,6 +39,8 @@ public class ParseService {
             case GROUP_BY -> select.setGroupBy(columnParser.parse(part));
             case HAVING -> select.setHaving(conditionParser.parse(part));
             case ORDER_BY -> select.setOrderBy(orderParser.parse(part));
+            case LIMIT -> select.setLimit(Integer.parseInt(part.getPart()));
+            case OFFSET -> select.setOffset(Integer.parseInt(part.getPart()));
         }
     }
 }

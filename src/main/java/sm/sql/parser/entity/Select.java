@@ -16,6 +16,8 @@ public class Select implements Serializable {
     private List<Column> groupBy;
     private Condition having;
     private List<Order> orderBy;
+    private Integer limit;
+    private Integer offset;
 }
 
 
