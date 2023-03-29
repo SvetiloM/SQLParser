@@ -6,10 +6,7 @@ import org.springframework.stereotype.Component;
 import sm.sql.parser.entity.Select;
 import sm.sql.parser.entity.part.Part;
 import sm.sql.parser.entity.part.QueryPartType;
-import sm.sql.parser.parser.ColumnParser;
-import sm.sql.parser.parser.ConditionParser;
-import sm.sql.parser.parser.JoinParser;
-import sm.sql.parser.parser.PartParser;
+import sm.sql.parser.parser.*;
 
 import java.util.List;
 
@@ -21,6 +18,7 @@ public class ParseService {
     private final ColumnParser columnParser;
     private final JoinParser joinParser;
     private final ConditionParser conditionParser;
+    private final WhereParser whereParser;
 
     public Select parse(String s) {
         List<Part<QueryPartType>> parts = partParser.getParts(s);
@@ -36,7 +34,7 @@ public class ParseService {
         switch (part.getType()) {
             case COLUMNS -> select.setColumns(columnParser.parse(part));
             case TABLES -> select.setTable(joinParser.parse(part));
-            case WHERE -> select.setWhere(conditionParser.parse(part));
+            case WHERE -> select.setWhere(whereParser.parse(part));
         }
     }
 }
