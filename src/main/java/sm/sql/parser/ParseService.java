@@ -34,7 +34,7 @@ public class ParseService {
     private void parse(Part<QueryPartType> part, Select select) {
         switch (part.getType()) {
             case COLUMNS -> select.setColumns(columnParser.parse(part));
-            case TABLES -> select.setTable(joinParser.parse(part));
+            case TABLES -> select.setSource(joinParser.parse(part));
             case WHERE -> select.setWhere(conditionParser.parse(part));
             case GROUP_BY -> select.setGroupBy(columnParser.parse(part));
             case HAVING -> select.setHaving(conditionParser.parse(part));

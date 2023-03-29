@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Table implements TableReference {
+public class Table implements Source {
     public String tableName;
     public String alias;
 }

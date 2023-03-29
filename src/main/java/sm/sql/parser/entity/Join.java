@@ -5,9 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Join implements TableReference {
-    private TableReference first;
-    private TableReference second;
+public class Join implements Source {
+    private Source first;
+    private Source second;
     private JoinType joinType;
     private Comparison comparison;
 

@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 public class Select implements Serializable {
     private List<Column> columns;
-    private TableReference table;
+    private Source source;
     private Condition where;
     private List<Column> groupBy;
     private Condition having;
