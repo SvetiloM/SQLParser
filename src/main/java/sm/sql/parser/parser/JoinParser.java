@@ -16,7 +16,7 @@ public class JoinParser implements Parser {
 
     private final PartParser<JoinPartType> partParser = new PartParser<>(JoinPartType.values());
     private final TableParser tableParser;
-    private final ConnectionParser connectionParser;
+    private final ConditionParser conditionParser;
 
     @Override
     public TableReference parse(Part part) {
@@ -66,7 +66,7 @@ public class JoinParser implements Parser {
                 join.setSecond(tableParser.parse(part));
                 join.setJoinType(Join.JoinType.FULL_JOIN);
             }
-            case ON -> join.setConnection(connectionParser.parse(part));
+            case ON -> join.setCondition(conditionParser.parse(part));
         }
     }
 }

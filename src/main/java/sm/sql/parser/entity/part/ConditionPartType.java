@@ -3,7 +3,7 @@ package sm.sql.parser.entity.part;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum ConnectionPartType implements PartType {
+public enum ConditionPartType implements PartType {
     EQUAL_LEFT("=", Direction.BEFORE),
     EQUAL_RIGHT("=", Direction.AFTER);
 
@@ -13,12 +13,12 @@ public enum ConnectionPartType implements PartType {
     private static final Map<String, PartType> values = new HashMap<>();
 
     static {
-        for (ConnectionPartType value : ConnectionPartType.values()) {
+        for (ConditionPartType value : ConditionPartType.values()) {
             values.put(value.reservedWord, value);
         }
     }
 
-    ConnectionPartType(String reservedWord, Direction direction) {
+    ConditionPartType(String reservedWord, Direction direction) {
         this.reservedWord = reservedWord;
         this.direction = direction;
     }

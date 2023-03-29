@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Connection {
+public class Condition {
     private Object left;
     private Object right;
     private ConnectionType type;

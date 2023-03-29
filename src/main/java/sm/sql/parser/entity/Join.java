@@ -9,7 +9,7 @@ public class Join implements TableReference {
     private TableReference first;
     private TableReference second;
     private JoinType joinType;
-    private Connection connection;
+    private Condition condition;
 
     public enum JoinType {
         INNER_JOIN,
