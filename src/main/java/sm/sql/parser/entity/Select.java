@@ -15,6 +15,7 @@ public class Select implements Serializable {
     private Condition where;
     private List<Column> groupBy;
     private Condition having;
+    private List<Order> orderBy;
 }
 
 

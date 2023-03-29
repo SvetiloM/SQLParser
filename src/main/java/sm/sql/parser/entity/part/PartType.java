@@ -8,7 +8,7 @@ public interface PartType {
 
     enum Direction {
         BEFORE,
-        AFTER
+        AFTER,
     }
 
 }

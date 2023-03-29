@@ -3,27 +3,24 @@ package sm.sql.parser.entity.part;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum QueryPartType implements PartType {
+public enum OrderPartType implements PartType {
 
-    COLUMNS("select", Direction.AFTER),
-    TABLES("from", Direction.AFTER),
-    WHERE("where", Direction.AFTER),
-    GROUP_BY("group by", Direction.AFTER),
-    HAVING("having", Direction.AFTER),
-    ORDER_BY("order by", Direction.AFTER);
+    ASC("asc", Direction.BEFORE),
+
+    DESC("desc", Direction.BEFORE);
 
     private final String reservedWord;
     private final Direction direction;
 
-    private static final Map<String, QueryPartType> values = new HashMap<>();
+    private static final Map<String, PartType> values = new HashMap<>();
 
     static {
-        for (QueryPartType value : QueryPartType.values()) {
+        for (OrderPartType value : OrderPartType.values()) {
             values.put(value.reservedWord, value);
         }
     }
 
-    QueryPartType(String reservedWord, Direction direction) {
+    OrderPartType(String reservedWord, Direction direction) {
         this.reservedWord = reservedWord;
         this.direction = direction;
     }
@@ -44,5 +41,4 @@ public enum QueryPartType implements PartType {
     public Direction getDirection() {
         return direction;
     }
-
 }

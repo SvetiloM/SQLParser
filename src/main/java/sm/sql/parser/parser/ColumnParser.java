@@ -16,6 +16,7 @@ public class ColumnParser implements Parser {
 
     @Override
     public List<Column> parse(Part part) {
+        //todo send to enum
         String s = part.getPart();
         String[] split = s.split(",");
 
