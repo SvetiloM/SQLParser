@@ -12,14 +12,14 @@ import java.util.List;
 
 public class ParseService {
 
-    private PartParser partParser = new PartParser(QueryPartType.values());
+    private PartParser<QueryPartType> partParser = new PartParser<>(QueryPartType.values());
     private ColumnParser columnParser = new ColumnParser();
     private TableParser tableParser = new TableParser();
 
     public Select parse(String s) {
-        List<Part> parts = partParser.getParts(s);
+        List<Part<QueryPartType>> parts = partParser.getParts(s);
         val select = new Select();
-        for (Part part : parts) {
+        for (Part<QueryPartType> part : parts) {
             parse(part, select);
         }
 
