@@ -1,21 +1,24 @@
 package sm.sql.parser;
 
+import lombok.RequiredArgsConstructor;
 import lombok.val;
+import org.springframework.stereotype.Component;
+import sm.sql.parser.entity.Select;
 import sm.sql.parser.entity.part.Part;
 import sm.sql.parser.entity.part.QueryPartType;
-import sm.sql.parser.entity.Select;
 import sm.sql.parser.parser.ColumnParser;
 import sm.sql.parser.parser.JoinParser;
 import sm.sql.parser.parser.PartParser;
-import sm.sql.parser.parser.TableParser;
 
 import java.util.List;
 
+@Component
+@RequiredArgsConstructor
 public class ParseService {
 
-    private PartParser<QueryPartType> partParser = new PartParser<>(QueryPartType.values());
-    private ColumnParser columnParser = new ColumnParser();
-    private JoinParser joinParser = new JoinParser();
+    private final PartParser<QueryPartType> partParser = new PartParser<>(QueryPartType.values());
+    private final ColumnParser columnParser;
+    private final JoinParser joinParser;
 
     public Select parse(String s) {
         List<Part<QueryPartType>> parts = partParser.getParts(s);

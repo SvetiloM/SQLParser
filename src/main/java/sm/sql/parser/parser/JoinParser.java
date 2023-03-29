@@ -1,6 +1,8 @@
 package sm.sql.parser.parser;
 
+import lombok.RequiredArgsConstructor;
 import lombok.val;
+import org.springframework.stereotype.Component;
 import sm.sql.parser.entity.Join;
 import sm.sql.parser.entity.TableReference;
 import sm.sql.parser.entity.part.JoinPartType;
@@ -8,11 +10,13 @@ import sm.sql.parser.entity.part.Part;
 
 import java.util.List;
 
+@Component
+@RequiredArgsConstructor
 public class JoinParser implements Parser {
 
-    PartParser<JoinPartType> partParser = new PartParser<>(JoinPartType.values());
-    TableParser tableParser = new TableParser();
-    ConnectionParser connectionParser = new ConnectionParser();
+    private final PartParser<JoinPartType> partParser = new PartParser<>(JoinPartType.values());
+    private final TableParser tableParser;
+    private final ConnectionParser connectionParser;
 
     @Override
     public TableReference parse(Part part) {

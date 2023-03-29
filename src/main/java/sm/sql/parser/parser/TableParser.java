@@ -1,15 +1,17 @@
 package sm.sql.parser.parser;
 
 import lombok.val;
+import org.springframework.stereotype.Component;
 import sm.sql.parser.entity.Table;
 import sm.sql.parser.entity.part.Part;
 import sm.sql.parser.entity.part.TablePartType;
 
 import java.util.List;
 
+@Component
 public class TableParser implements Parser {
 
-    PartParser<TablePartType> partParser = new PartParser<>(TablePartType.values());
+    private final PartParser<TablePartType> partParser = new PartParser<>(TablePartType.values());
 
     @Override
     public Table parse(Part part) {

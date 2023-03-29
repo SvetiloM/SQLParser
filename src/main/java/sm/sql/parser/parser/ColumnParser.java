@@ -1,6 +1,7 @@
 package sm.sql.parser.parser;
 
 import lombok.val;
+import org.springframework.stereotype.Component;
 import sm.sql.parser.entity.Column;
 import sm.sql.parser.entity.part.ColumnPartType;
 import sm.sql.parser.entity.part.Part;
@@ -8,9 +9,10 @@ import sm.sql.parser.entity.part.Part;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class ColumnParser implements Parser {
 
-    PartParser<ColumnPartType> partParser = new PartParser<>(ColumnPartType.values());
+    private final PartParser<ColumnPartType> partParser = new PartParser<>(ColumnPartType.values());
 
     @Override
     public List<Column> parse(Part part) {

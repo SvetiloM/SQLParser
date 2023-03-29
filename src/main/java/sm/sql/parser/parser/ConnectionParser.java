@@ -1,16 +1,20 @@
 package sm.sql.parser.parser;
 
+import lombok.RequiredArgsConstructor;
 import lombok.val;
+import org.springframework.stereotype.Component;
 import sm.sql.parser.entity.Connection;
 import sm.sql.parser.entity.part.ConnectionPartType;
 import sm.sql.parser.entity.part.Part;
 
 import java.util.List;
 
+@Component
+@RequiredArgsConstructor
 public class ConnectionParser implements Parser {
 
-    PartParser<ConnectionPartType> partParser = new PartParser<>(ConnectionPartType.values());
-    ColumnParser columnParser = new ColumnParser();
+    private final PartParser<ConnectionPartType> partParser = new PartParser<>(ConnectionPartType.values());
+    private final ColumnParser columnParser;
 
     @Override
     public Connection parse(Part part) {
