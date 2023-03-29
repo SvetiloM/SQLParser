@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 public class Select implements Serializable {
     private List<Column> columns;
-    private Table table;
+    private TableReference table;
 }
 
 

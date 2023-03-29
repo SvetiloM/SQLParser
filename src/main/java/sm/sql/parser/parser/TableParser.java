@@ -13,12 +13,10 @@ public class TableParser implements Parser {
 
     @Override
     public Table parse(Part part) {
-        String s = part.getPart();
-
         val table = new Table();
-        List<Part<TablePartType>> parts = partParser.getParts(s);
+        List<Part<TablePartType>> parts = partParser.getParts(part.getPart());
         if (parts.size() == 0) {
-            table.setTableName(s.trim());
+            table.setTableName(part.getPart().trim());
         } else {
             for (Part<TablePartType> columnPart : parts) {
                 parse(columnPart, table);

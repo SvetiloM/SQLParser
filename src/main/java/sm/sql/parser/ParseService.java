@@ -5,6 +5,7 @@ import sm.sql.parser.entity.part.Part;
 import sm.sql.parser.entity.part.QueryPartType;
 import sm.sql.parser.entity.Select;
 import sm.sql.parser.parser.ColumnParser;
+import sm.sql.parser.parser.JoinParser;
 import sm.sql.parser.parser.PartParser;
 import sm.sql.parser.parser.TableParser;
 
@@ -14,7 +15,7 @@ public class ParseService {
 
     private PartParser<QueryPartType> partParser = new PartParser<>(QueryPartType.values());
     private ColumnParser columnParser = new ColumnParser();
-    private TableParser tableParser = new TableParser();
+    private JoinParser joinParser = new JoinParser();
 
     public Select parse(String s) {
         List<Part<QueryPartType>> parts = partParser.getParts(s);
@@ -30,7 +31,7 @@ public class ParseService {
         switch (part.getType()) {
             case COLUMNS -> select.setColumns(columnParser.parse(part));
             case TABLES -> {
-                select.setTable(tableParser.parse(part));
+                select.setTable(joinParser.parse(part));
             }
         }
     }
