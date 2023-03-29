@@ -1,4 +1,4 @@
-package org.example;
+package sm.sql.parser;
 
 import org.junit.jupiter.api.Test;
 

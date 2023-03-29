@@ -1,6 +1,6 @@
-package org.example.parser;
+package sm.sql.parser.parser;
 
-import org.example.entity.Part;
+import sm.sql.parser.entity.part.Part;
 
 public class TableParser implements Parser {
     @Override

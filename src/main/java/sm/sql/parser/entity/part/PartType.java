@@ -1,4 +1,4 @@
-package org.example.entity;
+package sm.sql.parser.entity.part;
 
 public interface PartType {
 

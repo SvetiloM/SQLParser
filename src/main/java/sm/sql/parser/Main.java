@@ -1,9 +1,8 @@
-package org.example;
+package sm.sql.parser;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.SneakyThrows;
-import org.example.entity.Select;
+import sm.sql.parser.entity.Select;
 
 import java.util.Scanner;
 

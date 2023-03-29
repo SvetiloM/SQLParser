@@ -1,4 +1,4 @@
-package org.example.entity;
+package sm.sql.parser.entity.part;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

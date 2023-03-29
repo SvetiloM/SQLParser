@@ -1,9 +1,9 @@
-package org.example.parser;
+package sm.sql.parser.parser;
 
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.example.entity.Part;
-import org.example.entity.PartType;
+import sm.sql.parser.entity.part.Part;
+import sm.sql.parser.entity.part.PartType;
 
 import java.util.ArrayList;
 import java.util.List;

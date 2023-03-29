@@ -1,29 +1,25 @@
-package org.example.entity;
+package sm.sql.parser.entity.part;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public enum ColumnPartType implements PartType {
+public enum QueryPartType implements PartType {
 
-    TABLE(".", Direction.BEFORE),
-
-    NAME_AFTER_TABLE(".", Direction.AFTER),
-
-    NAME_BEFORE_ALIAS("as", Direction.BEFORE),
-    ALIAS("as", Direction.AFTER);
+    COLUMNS("select", Direction.AFTER),
+    TABLES("from", Direction.AFTER);
 
     private final String reservedWord;
     private final Direction direction;
 
-    private static final Map<String, PartType> values = new HashMap<>();
+    private static final Map<String, QueryPartType> values = new HashMap<>();
 
     static {
-        for (ColumnPartType value : ColumnPartType.values()) {
+        for (QueryPartType value : QueryPartType.values()) {
             values.put(value.reservedWord, value);
         }
     }
 
-    ColumnPartType(String reservedWord, Direction direction) {
+    QueryPartType(String reservedWord, Direction direction) {
         this.reservedWord = reservedWord;
         this.direction = direction;
     }
@@ -44,4 +40,5 @@ public enum ColumnPartType implements PartType {
     public Direction getDirection() {
         return direction;
     }
+
 }

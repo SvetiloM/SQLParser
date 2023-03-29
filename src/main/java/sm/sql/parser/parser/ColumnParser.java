@@ -1,9 +1,9 @@
-package org.example.parser;
+package sm.sql.parser.parser;
 
 import lombok.val;
-import org.example.entity.Column;
-import org.example.entity.ColumnPartType;
-import org.example.entity.Part;
+import sm.sql.parser.entity.Column;
+import sm.sql.parser.entity.part.ColumnPartType;
+import sm.sql.parser.entity.part.Part;
 
 import java.util.ArrayList;
 import java.util.List;

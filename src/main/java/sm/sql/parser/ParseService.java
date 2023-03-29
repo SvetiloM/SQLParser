@@ -1,12 +1,12 @@
-package org.example;
+package sm.sql.parser;
 
 import lombok.val;
-import org.example.entity.Part;
-import org.example.entity.QueryPartType;
-import org.example.entity.Select;
-import org.example.parser.ColumnParser;
-import org.example.parser.PartParser;
-import org.example.parser.TableParser;
+import sm.sql.parser.entity.part.Part;
+import sm.sql.parser.entity.part.QueryPartType;
+import sm.sql.parser.entity.Select;
+import sm.sql.parser.parser.ColumnParser;
+import sm.sql.parser.parser.PartParser;
+import sm.sql.parser.parser.TableParser;
 
 import java.util.List;
 
