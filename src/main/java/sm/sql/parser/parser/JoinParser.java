@@ -3,8 +3,10 @@ package sm.sql.parser.parser;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Component;
+import sm.sql.parser.entity.Connection;
 import sm.sql.parser.entity.Join;
 import sm.sql.parser.entity.Source;
+import sm.sql.parser.entity.part.ConnectionPartType;
 import sm.sql.parser.entity.part.JoinPartType;
 import sm.sql.parser.entity.part.Part;
 
@@ -34,39 +36,49 @@ public class JoinParser implements Parser {
 
     private void parse(Part<JoinPartType> part, Join join) {
         switch (part.getType()) {
-            case INNER_JOIN_FIRST -> {
-                join.setFirst(tableParser.parse(part));
+            case OLD_INNER_JOIN_LEFT, INNER_JOIN_FIRST -> {
+                join.setFirst(goDeeper(part));
                 join.setJoinType(Join.JoinType.INNER_JOIN);
             }
-            case INNER_JOIN_SECOND -> {
-                join.setSecond(tableParser.parse(part));
+            case OLD_INNER_JOIN_RIGHT, INNER_JOIN_SECOND -> {
+                join.setSecond(goDeeper(part));
                 join.setJoinType(Join.JoinType.INNER_JOIN);
             }
             case LEFT_JOIN_FIRST -> {
-                join.setFirst(tableParser.parse(part));
+                join.setFirst(goDeeper(part));
                 join.setJoinType(Join.JoinType.LEFT_JOIN);
             }
             case LEFT_JOIN_SECOND -> {
-                join.setSecond(tableParser.parse(part));
+                join.setSecond(goDeeper(part));
                 join.setJoinType(Join.JoinType.LEFT_JOIN);
             }
             case RIGHT_JOIN_FIRST -> {
-                join.setFirst(tableParser.parse(part));
+                join.setFirst(goDeeper(part));
                 join.setJoinType(Join.JoinType.RIGHT_JOIN);
             }
             case RIGHT_JOIN_SECOND -> {
-                join.setSecond(tableParser.parse(part));
+                join.setSecond(goDeeper(part));
                 join.setJoinType(Join.JoinType.RIGHT_JOIN);
             }
             case FULL_JOIN_FIRST -> {
-                join.setFirst(tableParser.parse(part));
+                join.setFirst(goDeeper(part));
                 join.setJoinType(Join.JoinType.FULL_JOIN);
             }
             case FULL_JOIN_SECOND -> {
-                join.setSecond(tableParser.parse(part));
+                join.setSecond(goDeeper(part));
                 join.setJoinType(Join.JoinType.FULL_JOIN);
             }
             case ON -> join.setComparison(conditionParser.parse(part));
+        }
+    }
+
+    private Source goDeeper(Part<JoinPartType> part) {
+        Source innerSource = parse(part);
+        //todo optional
+        if (innerSource == null) {
+            return tableParser.parse(part);
+        } else {
+            return innerSource;
         }
     }
 }

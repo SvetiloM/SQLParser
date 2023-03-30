@@ -1,9 +1,9 @@
 package sm.sql.parser.entity.part;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public enum JoinPartType implements PartType {
+
+    OLD_INNER_JOIN_LEFT(",", Direction.BEFORE),
+    OLD_INNER_JOIN_RIGHT(",", Direction.AFTER),
     INNER_JOIN_FIRST("join", Direction.BEFORE),
     INNER_JOIN_SECOND("join", Direction.AFTER),
 
@@ -21,25 +21,9 @@ public enum JoinPartType implements PartType {
     private final String reservedWord;
     private final Direction direction;
 
-    private static final Map<String, PartType> values = new HashMap<>();
-
-    static {
-        for (JoinPartType value : JoinPartType.values()) {
-            values.put(value.reservedWord, value);
-        }
-    }
-
     JoinPartType(String reservedWord, Direction direction) {
         this.reservedWord = reservedWord;
         this.direction = direction;
-    }
-
-    public static PartType getByReservedWord(String name) {
-        return values.get(name);
-    }
-
-    public static String[] getReservedWords() {
-        return values.keySet().toArray(new String[0]);
     }
 
     public String getValue() {

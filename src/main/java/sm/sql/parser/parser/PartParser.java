@@ -6,6 +6,7 @@ import sm.sql.parser.entity.part.Part;
 import sm.sql.parser.entity.part.PartType;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -21,6 +22,8 @@ public class PartParser<E extends PartType> {
                 indexes.add(new PartIndex(reservedWord, i));
             }
         }
+        indexes = mergeConflicts(indexes);
+
         PartIndex endIndex = new PartIndex(null, s.length());
         indexes.add(endIndex);
 
@@ -48,6 +51,40 @@ public class PartParser<E extends PartType> {
         return parts;
     }
 
+    private List<PartIndex> mergeConflicts(List<PartIndex> indexList) {
+        if (indexList.size() < 2) {
+            return indexList;
+        }
+        Collections.sort(indexList);
+        List<PartIndex> mergedIndexes = new ArrayList<>();
+        //add first
+        mergedIndexes.add(indexList.get(0));
+        int j = 1;
+        //compare last from merged with first from indexes
+        while (j < indexList.size()) {
+            PartIndex previousIndex = mergedIndexes.get(mergedIndexes.size() - 1);
+            PartIndex index = indexList.get(j);
+
+            if (previousIndex.type.getValue().contains(index.type.getValue()) &&
+                    !previousIndex.type.getValue().equals(index.type.getValue())) {
+                int lastIndex = previousIndex.index + previousIndex.type.getValue().length();
+                if (index.index < lastIndex) //todo <= ?
+                {
+                    j++; //delete this index
+                }
+            } else {
+                mergedIndexes.add(index);
+                j++;
+            }
+        }
+//        PartIndex index = indexList.get(j);
+//        if (index.type == null) {
+//            mergedIndexes.add(index);
+//        }
+
+        return mergedIndexes;
+    }
+
     private String createPartString(String s, E type, int start, int end) {
         String substring = s.substring(start, end);
         if (substring.contains(type.getValue()))
@@ -57,9 +94,16 @@ public class PartParser<E extends PartType> {
     }
 
     @AllArgsConstructor
-    private class PartIndex {
+    private class PartIndex implements Comparable<PartIndex> {
         private E type;
         private int index;
+
+        @Override
+        public int compareTo(PartIndex o2) {
+            if (index > o2.index) return 1;
+            if (index < o2.index) return -1;
+            return 0;
+        }
     }
 
 }
