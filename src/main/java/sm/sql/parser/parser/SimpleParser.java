@@ -1,5 +1,6 @@
 package sm.sql.parser.parser;
 
+import lombok.RequiredArgsConstructor;
 import sm.sql.parser.entity.part.Part;
 import sm.sql.parser.entity.part.PartType;
 
@@ -7,15 +8,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+@RequiredArgsConstructor
 public abstract class SimpleParser<E extends PartType, T> implements Parser<T> {
 
     private final PartParser<E> partParser;
     private final Supplier<T> supplier;
-
-    protected SimpleParser(PartParser<E> partParser, Supplier<T> supplier) {
-        this.partParser = partParser;
-        this.supplier = supplier;
-    }
 
     @Override
     public Optional<T> parse(String part) {

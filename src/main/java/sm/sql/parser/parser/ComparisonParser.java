@@ -1,40 +1,22 @@
 package sm.sql.parser.parser;
 
-import lombok.RequiredArgsConstructor;
-import lombok.val;
 import org.springframework.stereotype.Component;
 import sm.sql.parser.entity.Comparison;
 import sm.sql.parser.entity.Comparison.ConnectionType;
 import sm.sql.parser.entity.part.ComparisonPartType;
 import sm.sql.parser.entity.part.Part;
 
-import java.util.List;
-import java.util.Optional;
-
 @Component
-@RequiredArgsConstructor
-public class ComparisonParser implements Parser {
-
-    private final PartParser<ComparisonPartType> partParser = new PartParser<>(ComparisonPartType.values());
-    private final PartParser<ComparisonPartType> compositePartParser = new PartParser<>(ComparisonPartType.getCompositeValues());
+public class ComparisonParser extends SimpleParser<ComparisonPartType, Comparison> {
     private final ColumnParser columnParser;
 
-    @Override
-    public Optional<Comparison> parse(String part) {
-        List<Part<ComparisonPartType>> parts = compositePartParser.getParts(part);
-        if (parts.size() == 0) {
-            parts = partParser.getParts(part);
-        }
-        if (parts.size() == 0) return null;
-        val connection = new Comparison();
-        for (Part<ComparisonPartType> connectionPart : parts) {
-            parse(connectionPart, connection);
-        }
-        return Optional.of(connection);
-
+    public ComparisonParser(ColumnParser columnParser) {
+        super(new PartParser<>(ComparisonPartType.values()), Comparison::new);
+        this.columnParser = columnParser;
     }
 
-    private void parse(Part<ComparisonPartType> part, Comparison comparison) {
+    @Override
+    public void parse(Part<ComparisonPartType> part, Comparison comparison) {
         switch (part.getType()) {
             case EQUAL_LEFT -> {
                 comparison.setType(ConnectionType.EQUAL);
