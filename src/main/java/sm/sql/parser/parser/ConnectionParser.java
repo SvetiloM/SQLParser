@@ -3,11 +3,14 @@ package sm.sql.parser.parser;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Component;
+import sm.sql.parser.entity.Comparison;
+import sm.sql.parser.entity.Condition;
 import sm.sql.parser.entity.Connection;
 import sm.sql.parser.entity.part.ConnectionPartType;
 import sm.sql.parser.entity.part.Part;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -16,7 +19,7 @@ public class ConnectionParser implements Parser {
     private final ComparisonParser conditionParser;
 
     @Override
-    public Connection parse(String part) {
+    public Optional<Connection> parse(String part) {
         val where = new Connection();
         List<Part<ConnectionPartType>> parts = partParser.getParts(part);
         if (parts.size() == 0) return null;
@@ -24,7 +27,7 @@ public class ConnectionParser implements Parser {
             parse(columnPart, where);
         }
 
-        return where;
+        return Optional.of(where);
     }
 
     private void parse(Part<ConnectionPartType> part, Connection connection) {
@@ -48,13 +51,13 @@ public class ConnectionParser implements Parser {
         }
     }
 
-    private Object goDeeper(Part<ConnectionPartType> part) {
-        Connection innerCondition = parse(part.getPart());
+    private Condition goDeeper(Part<ConnectionPartType> part) {
+        Optional<Connection> innerCondition = parse(part.getPart());
         //todo optional
-        if (innerCondition == null) {
-            return conditionParser.parse(part.getPart());
+        if (innerCondition.isEmpty()) {
+            return  conditionParser.parse(part.getPart()).orElse(null);
         } else {
-            return innerCondition;
+            return innerCondition.get();
         }
     }
 }

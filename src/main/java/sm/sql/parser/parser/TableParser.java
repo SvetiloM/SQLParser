@@ -7,6 +7,7 @@ import sm.sql.parser.entity.part.Part;
 import sm.sql.parser.entity.part.TablePartType;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class TableParser implements Parser {
@@ -14,7 +15,7 @@ public class TableParser implements Parser {
     private final PartParser<TablePartType> partParser = new PartParser<>(TablePartType.values());
 
     @Override
-    public Table parse(String part) {
+    public Optional<Table> parse(String part) {
         val table = new Table();
         List<Part<TablePartType>> parts = partParser.getParts(part);
         if (parts.size() == 0) {
@@ -24,7 +25,7 @@ public class TableParser implements Parser {
                 parse(columnPart, table);
             }
         }
-        return table;
+        return Optional.of(table);
     }
 
     private void parse(Part<TablePartType> part, Table t) {

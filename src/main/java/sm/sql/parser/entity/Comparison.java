@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Comparison implements Condition{
+public class Comparison implements Condition {
     private Column left;
     private Column right;
     private ConnectionType type;

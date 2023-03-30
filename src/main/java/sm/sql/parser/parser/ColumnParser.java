@@ -8,6 +8,7 @@ import sm.sql.parser.entity.part.Part;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class ColumnParser implements Parser {
@@ -15,7 +16,7 @@ public class ColumnParser implements Parser {
     private final PartParser<ColumnPartType> partParser = new PartParser<>(ColumnPartType.values());
 
     @Override
-    public List<Column> parse(String part) {
+    public Optional<List<Column>> parse(String part) {
         //todo send to enum
         String[] split = part.split(",");
 
@@ -35,7 +36,7 @@ public class ColumnParser implements Parser {
             i++;
         }
 
-        return columns;
+        return Optional.of(columns);
     }
 
     private void parse(Part<ColumnPartType> part, Column column) {

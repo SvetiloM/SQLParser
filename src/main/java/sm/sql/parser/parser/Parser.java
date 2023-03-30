@@ -1,8 +1,10 @@
 package sm.sql.parser.parser;
 
-public interface Parser {
+import java.util.Optional;
+
+public interface Parser<T> {
 
     //todo Optional
-    Object parse(String part);
+    Optional<T> parse(String part);
 
 }

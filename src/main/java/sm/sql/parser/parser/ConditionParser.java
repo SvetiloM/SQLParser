@@ -7,6 +7,7 @@ import sm.sql.parser.entity.part.ConnectionPartType;
 import sm.sql.parser.entity.part.Part;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -18,7 +19,7 @@ public class ConditionParser implements Parser {
     private final ConnectionParser connectionParser;
 
     @Override
-    public Condition parse(String part) {
+    public Optional<? extends Condition> parse(String part) {
         List<Part<ConnectionPartType>> connections = connectionPartParser.getParts(part);
         if (connections.size() != 0) {
             return connectionParser.parse(part);

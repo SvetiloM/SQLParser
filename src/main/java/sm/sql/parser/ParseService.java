@@ -33,12 +33,12 @@ public class ParseService {
 
     private void parse(Part<QueryPartType> part, Select select) {
         switch (part.getType()) {
-            case COLUMNS -> select.setColumns(columnParser.parse(part));
-            case TABLES -> select.setSource(joinParser.parse(part));
-            case WHERE -> select.setWhere(conditionParser.parse(part));
-            case GROUP_BY -> select.setGroupBy(columnParser.parse(part));
-            case HAVING -> select.setHaving(conditionParser.parse(part));
-            case ORDER_BY -> select.setOrderBy(orderParser.parse(part));
+            case COLUMNS -> columnParser.parse(part.getPart()).ifPresent(select::setColumns);
+            case TABLES -> joinParser.parse(part.getPart()).ifPresent(select::setSource);
+            case WHERE -> conditionParser.parse(part.getPart()).ifPresent(select::setWhere);
+            case GROUP_BY -> columnParser.parse(part.getPart()).ifPresent(select::setGroupBy);
+            case HAVING -> conditionParser.parse(part.getPart()).ifPresent(select::setHaving);
+            case ORDER_BY -> orderParser.parse(part.getPart()).ifPresent(select::setOrderBy);
             case LIMIT -> select.setLimit(Integer.parseInt(part.getPart()));
             case OFFSET -> select.setOffset(Integer.parseInt(part.getPart()));
         }

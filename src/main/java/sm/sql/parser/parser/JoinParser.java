@@ -3,12 +3,15 @@ package sm.sql.parser.parser;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Component;
+import sm.sql.parser.entity.Comparison;
 import sm.sql.parser.entity.Join;
 import sm.sql.parser.entity.Source;
+import sm.sql.parser.entity.Table;
 import sm.sql.parser.entity.part.JoinPartType;
 import sm.sql.parser.entity.part.Part;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -19,7 +22,7 @@ public class JoinParser implements Parser {
     private final ComparisonParser conditionParser;
 
     @Override
-    public Source parse(String part) {
+    public Optional<? extends Source> parse(String part) {
         List<Part<JoinPartType>> parts = partParser.getParts(part);
         if (parts.size() == 0) {
             return tableParser.parse(part);
@@ -28,7 +31,7 @@ public class JoinParser implements Parser {
             for (Part<JoinPartType> joinPart : parts) {
                 parse(joinPart, join);
             }
-            return join;
+            return Optional.of(join);
         }
     }
 
@@ -66,17 +69,18 @@ public class JoinParser implements Parser {
                 join.setSecond(goDeeper(part.getPart()));
                 join.setJoinType(Join.JoinType.FULL_JOIN);
             }
-            case ON -> join.setComparison(conditionParser.parse(part.getPart()));
+            case ON -> conditionParser.parse(part.getPart()).ifPresent(join::setComparison);
         }
     }
 
     private Source goDeeper(String part) {
-        Source innerSource = parse(part);
+        Optional<? extends Source> innerSource = parse(part);
         //todo optional
-        if (innerSource == null) {
-            return tableParser.parse(part);
+        if (innerSource.isEmpty()) {
+            Optional<Table> table = tableParser.parse(part);
+            return table.orElse(null);
         } else {
-            return innerSource;
+            return innerSource.get();
         }
     }
 }
