@@ -8,6 +8,7 @@ import sm.sql.parser.entity.part.PartType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class PartParser<E extends PartType> {
@@ -15,32 +16,23 @@ public class PartParser<E extends PartType> {
     private final E[] reservedWords;
 
     public List<Part<E>> getParts(String s) {
-        List<PartIndex> indexes = new ArrayList<>();
-        for (E reservedWord : reservedWords) {
-            int i = s.indexOf(reservedWord.getValue());
-            if (i > -1) {
-                indexes.add(new PartIndex(reservedWord, i));
-            }
-        }
-        indexes = mergeConflicts(indexes);
-
-        PartIndex endIndex = new PartIndex(null, s.length());
-        indexes.add(endIndex);
+        List<PartIndex> indexes = getReservedWordsIndexes(s);
 
         List<Part<E>> parts = new ArrayList<>();
         int i = 0;
-        while (i < indexes.size() - 1) {
+        while (i < indexes.size()) {
             PartIndex index = indexes.get(i);
             if (index.type.getDirection().equals(PartType.Direction.BEFORE)) {
                 int start = 0;
-                if (i > 1) {
-                    start = indexes.get(i - 1).index + 1;
+                if (i > 0) {
+                    PartIndex prevIndex = indexes.get(i - 1);
+                    start = prevIndex.index + prevIndex.type.getValue().length();
                 }
                 String part = createPartString(s, index.type, start, index.index);
                 parts.add(new Part<>(index.type, part));
             } else {
                 int end = s.length();
-                if (i < s.length() - 1) {
+                if (i < indexes.size() - 1) {
                     end = indexes.get(i + 1).index;
                 }
                 String part = createPartString(s, index.type, index.index, end);
@@ -48,14 +40,38 @@ public class PartParser<E extends PartType> {
             }
             i++;
         }
+        getLastElem(indexes.get(indexes.size() - 1), s).ifPresent(parts::add);
         return parts;
+    }
+
+    private List<PartIndex> getReservedWordsIndexes(String s) {
+        List<PartIndex> indexes = new ArrayList<>();
+        for (E reservedWord : reservedWords) {
+            indexes.addAll(findAllIndexes(s, reservedWord));
+        }
+        if (indexes.size() == 0) return Collections.emptyList();
+
+        Collections.sort(indexes);
+
+        return mergeConflicts(indexes);
+    }
+
+    private List<PartIndex> findAllIndexes(String s, E reservedWord) {
+        List<PartIndex> indexes = new ArrayList<>();
+        int i = -1;
+        do {
+            i = s.indexOf(reservedWord.getValue(), i + 1);
+            if (i > -1) {
+                indexes.add(new PartIndex(reservedWord, i));
+            }
+        } while (i > -1);
+        return indexes;
     }
 
     private List<PartIndex> mergeConflicts(List<PartIndex> indexList) {
         if (indexList.size() < 2) {
             return indexList;
         }
-        Collections.sort(indexList);
         List<PartIndex> mergedIndexes = new ArrayList<>();
         //add first
         mergedIndexes.add(indexList.get(0));
@@ -68,7 +84,7 @@ public class PartParser<E extends PartType> {
             if (previousIndex.type.getValue().contains(index.type.getValue()) &&
                     !previousIndex.type.getValue().equals(index.type.getValue())) {
                 int lastIndex = previousIndex.index + previousIndex.type.getValue().length();
-                if (index.index < lastIndex) //todo <= ?
+                if (index.index < lastIndex)
                 {
                     j++; //delete this index
                 }
@@ -77,12 +93,16 @@ public class PartParser<E extends PartType> {
                 j++;
             }
         }
-//        PartIndex index = indexList.get(j);
-//        if (index.type == null) {
-//            mergedIndexes.add(index);
-//        }
 
         return mergedIndexes;
+    }
+
+    private Optional<Part<E>> getLastElem(PartIndex prevIndex, String s) {
+        int end = s.length();
+        String part = createPartString(s, prevIndex.type, prevIndex.index, end);
+        if (!part.isEmpty())
+            return Optional.of(new Part<>(prevIndex.type, part));
+        else return Optional.empty();
     }
 
     private String createPartString(String s, E type, int start, int end) {
