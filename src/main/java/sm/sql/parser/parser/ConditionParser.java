@@ -18,8 +18,8 @@ public class ConditionParser implements Parser {
     private final ConnectionParser connectionParser;
 
     @Override
-    public Condition parse(Part part) {
-        List<Part<ConnectionPartType>> connections = connectionPartParser.getParts(part.getPart());
+    public Condition parse(String part) {
+        List<Part<ConnectionPartType>> connections = connectionPartParser.getParts(part);
         if (connections.size() != 0) {
             return connectionParser.parse(part);
         } else {

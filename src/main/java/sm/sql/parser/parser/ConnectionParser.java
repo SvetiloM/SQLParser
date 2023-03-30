@@ -16,9 +16,9 @@ public class ConnectionParser implements Parser {
     private final ComparisonParser conditionParser;
 
     @Override
-    public Connection parse(Part part) {
+    public Connection parse(String part) {
         val where = new Connection();
-        List<Part<ConnectionPartType>> parts = partParser.getParts(part.getPart());
+        List<Part<ConnectionPartType>> parts = partParser.getParts(part);
         if (parts.size() == 0) return null;
         for (Part<ConnectionPartType> columnPart : parts) {
             parse(columnPart, where);
@@ -49,10 +49,10 @@ public class ConnectionParser implements Parser {
     }
 
     private Object goDeeper(Part<ConnectionPartType> part) {
-        Connection innerCondition = parse(part);
+        Connection innerCondition = parse(part.getPart());
         //todo optional
         if (innerCondition == null) {
-            return conditionParser.parse(part);
+            return conditionParser.parse(part.getPart());
         } else {
             return innerCondition;
         }

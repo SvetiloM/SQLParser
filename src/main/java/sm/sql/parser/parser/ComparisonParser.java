@@ -19,10 +19,10 @@ public class ComparisonParser implements Parser {
     private final ColumnParser columnParser;
 
     @Override
-    public Comparison parse(Part part) {
-        List<Part<ComparisonPartType>> parts = compositePartParser.getParts(part.getPart());
+    public Comparison parse(String part) {
+        List<Part<ComparisonPartType>> parts = compositePartParser.getParts(part);
         if (parts.size() == 0) {
-            parts = partParser.getParts(part.getPart());
+            parts = partParser.getParts(part);
         }
         if (parts.size() == 0) return null;
         val connection = new Comparison();
@@ -37,75 +37,75 @@ public class ComparisonParser implements Parser {
         switch (part.getType()) {
             case EQUAL_LEFT -> {
                 comparison.setType(ConnectionType.EQUAL);
-                comparison.setLeft(columnParser.parse(part).get(0));
+                comparison.setLeft(columnParser.parse(part.getPart()).get(0));
             }
             case EQUAL_RIGHT -> {
                 comparison.setType(ConnectionType.EQUAL);
-                comparison.setRight(columnParser.parse(part).get(0));
+                comparison.setRight(columnParser.parse(part.getPart()).get(0));
             }
             case MORE_LEFT -> {
                 comparison.setType(ConnectionType.MORE);
-                comparison.setLeft(columnParser.parse(part).get(0));
+                comparison.setLeft(columnParser.parse(part.getPart()).get(0));
             }
             case MORE_RIGHT -> {
                 comparison.setType(ConnectionType.MORE);
-                comparison.setRight(columnParser.parse(part).get(0));
+                comparison.setRight(columnParser.parse(part.getPart()).get(0));
             }
             case LESS_LEFT -> {
                 comparison.setType(ConnectionType.LESS);
-                comparison.setLeft(columnParser.parse(part).get(0));
+                comparison.setLeft(columnParser.parse(part.getPart()).get(0));
             }
             case LESS_RIGHT -> {
                 comparison.setType(ConnectionType.LESS);
-                comparison.setRight(columnParser.parse(part).get(0));
+                comparison.setRight(columnParser.parse(part.getPart()).get(0));
             }
             case MORE_OR_EQUAL_LEFT -> {
                 comparison.setType(ConnectionType.MORE_OR_EQUAL);
-                comparison.setLeft(columnParser.parse(part).get(0));
+                comparison.setLeft(columnParser.parse(part.getPart()).get(0));
             }
             case MORE_OR_EQUAL_RIGHT -> {
                 comparison.setType(ConnectionType.MORE_OR_EQUAL);
-                comparison.setRight(columnParser.parse(part).get(0));
+                comparison.setRight(columnParser.parse(part.getPart()).get(0));
             }
             case LESS_OR_EQUAL_LEFT -> {
                 comparison.setType(ConnectionType.LESS_OR_EQUAL);
-                comparison.setLeft(columnParser.parse(part).get(0));
+                comparison.setLeft(columnParser.parse(part.getPart()).get(0));
             }
             case LESS_OR_EQUAL_RIGHT -> {
                 comparison.setType(ConnectionType.LESS_OR_EQUAL);
-                comparison.setRight(columnParser.parse(part).get(0));
+                comparison.setRight(columnParser.parse(part.getPart()).get(0));
             }
             case NOT_EQUAL_LEFT -> {
                 comparison.setType(ConnectionType.NOT_EQUAL);
-                comparison.setLeft(columnParser.parse(part).get(0));
+                comparison.setLeft(columnParser.parse(part.getPart()).get(0));
             }
             case NOT_EQUAL_RIGHT -> {
                 comparison.setType(ConnectionType.NOT_EQUAL);
-                comparison.setRight(columnParser.parse(part).get(0));
+                comparison.setRight(columnParser.parse(part.getPart()).get(0));
             }
             case NOT_EQUAL_EXCL_LEFT -> {
                 comparison.setType(ConnectionType.NOT_EQUAL_EXCL);
-                comparison.setLeft(columnParser.parse(part).get(0));
+                comparison.setLeft(columnParser.parse(part.getPart()).get(0));
             }
             case NOT_EQUAL_EXCL_RIGHT -> {
                 comparison.setType(ConnectionType.NOT_EQUAL_EXCL);
-                comparison.setRight(columnParser.parse(part).get(0));
+                comparison.setRight(columnParser.parse(part.getPart()).get(0));
             }
             case NOT_LESS_LEFT -> {
                 comparison.setType(ConnectionType.NOT_LESS);
-                comparison.setLeft(columnParser.parse(part).get(0));
+                comparison.setLeft(columnParser.parse(part.getPart()).get(0));
             }
             case NOT_LESS_RIGHT -> {
                 comparison.setType(ConnectionType.NOT_LESS);
-                comparison.setRight(columnParser.parse(part).get(0));
+                comparison.setRight(columnParser.parse(part.getPart()).get(0));
             }
             case NOT_MORE_LEFT -> {
                 comparison.setType(ConnectionType.NOT_MORE);
-                comparison.setLeft(columnParser.parse(part).get(0));
+                comparison.setLeft(columnParser.parse(part.getPart()).get(0));
             }
             case NOT_MORE_RIGHT -> {
                 comparison.setType(ConnectionType.NOT_MORE);
-                comparison.setRight(columnParser.parse(part).get(0));
+                comparison.setRight(columnParser.parse(part.getPart()).get(0));
             }
         }
     }

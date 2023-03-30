@@ -15,10 +15,9 @@ public class ColumnParser implements Parser {
     private final PartParser<ColumnPartType> partParser = new PartParser<>(ColumnPartType.values());
 
     @Override
-    public List<Column> parse(Part part) {
+    public List<Column> parse(String part) {
         //todo send to enum
-        String s = part.getPart();
-        String[] split = s.split(",");
+        String[] split = part.split(",");
 
         List<Column> columns = new ArrayList<>();
         int i = 0;
