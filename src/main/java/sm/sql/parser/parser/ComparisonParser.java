@@ -42,6 +42,14 @@ public class ComparisonParser extends SimpleParser<ComparisonPartType, Compariso
                 comparison.setType(ConnectionType.LESS);
                 columnParser.parse(part.getPart()).ifPresent(comparison::setRight);
             }
+            case LIKE_LEFT -> {
+                comparison.setType(ConnectionType.LIKE);
+                columnParser.parse(part.getPart()).ifPresent(comparison::setLeft);
+            }
+            case LIKE_RIGHT -> {
+                comparison.setType(ConnectionType.LIKE);
+                comparison.setRight(part.getPart());
+            }
             case MORE_OR_EQUAL_LEFT -> {
                 comparison.setType(ConnectionType.MORE_OR_EQUAL);
                 columnParser.parse(part.getPart()).ifPresent(comparison::setLeft);

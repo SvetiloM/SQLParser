@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class Comparison implements Condition {
     private Column left;
-    private Column right;
+    private Object right;
     private ConnectionType type;
 
     public enum ConnectionType {
@@ -19,6 +19,7 @@ public class Comparison implements Condition {
         NOT_EQUAL,
         NOT_EQUAL_EXCL,
         NOT_LESS,
-        NOT_MORE;
+        NOT_MORE,
+        LIKE;
     }
 }
