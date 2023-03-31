@@ -10,10 +10,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-@RequiredArgsConstructor
 public class PartParser<E extends PartType> {
 
     private final E[] reservedWords;
+
+    @SafeVarargs
+    public PartParser(E... reservedWords) {
+        this.reservedWords = reservedWords;
+    }
 
     public List<Part<E>> getParts(String s) {
         List<PartIndex> indexes = getReservedWordsIndexes(s);

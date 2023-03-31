@@ -9,7 +9,7 @@ import sm.sql.parser.entity.part.ColumnPartType;
 public class ColumnsCollectionParser extends CollectionParser<CollectionPartType, ColumnPartType, Column> {
 
     public ColumnsCollectionParser() {
-        super(new PartParser<>(CollectionPartType.values()), new ColumnParser());
+        super(new PartParser<>(CollectionPartType.COMMA), new ColumnParser());
     }
 
 }

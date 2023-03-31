@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import sm.sql.parser.entity.Select;
+import sm.sql.parser.parser.SelectQueryParser;
 
 import java.util.Scanner;
 
@@ -14,7 +15,7 @@ import java.util.Scanner;
 public class Main
         implements CommandLineRunner {
     @Autowired
-    private ParseService service;
+    private SelectQueryParser service;
 
     public static void main(String[] arg) {
         SpringApplication.run(Main.class, arg);
@@ -25,7 +26,7 @@ public class Main
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
 
-        Select select = service.parse(input);
+        Select select = service.parse(input).get();
 
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(select);

@@ -7,6 +7,6 @@ import sm.sql.parser.entity.part.OrderPartType;
 public class OrderCollectionParser extends CollectionParser<CollectionPartType, OrderPartType, Order> {
 
     public OrderCollectionParser() {
-        super(new PartParser<>(CollectionPartType.values()), new OrderParser(new ColumnParser()));
+        super(new PartParser<>(CollectionPartType.COMMA), new OrderParser(new ColumnParser()));
     }
 }
