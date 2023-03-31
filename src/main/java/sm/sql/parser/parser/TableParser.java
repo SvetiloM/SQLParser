@@ -11,14 +11,14 @@ public class TableParser extends SimpleParser<TablePartType, Table> {
     private final PartParser<TablePartType> partParser = new PartParser<>(TablePartType.values());
 
     public TableParser() {
-        super(new PartParser<>(TablePartType.values()), Table::new, (s, t) -> t.setTableName(s), true);
+        super(new PartParser<>(TablePartType.values()), Table::new, (s, t) -> t.setName(s), true);
     }
 
     @Override
     public void parse(Part<TablePartType> part, Table t) {
         switch (part.getType()) {
             case ALIAS -> t.setAlias(part.getPart());
-            case NAME_BEFORE_ALIAS -> t.setTableName(part.getPart());
+            case NAME_BEFORE_ALIAS -> t.setName(part.getPart());
         }
     }
 }
