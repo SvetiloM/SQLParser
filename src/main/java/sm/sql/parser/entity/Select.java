@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class Select implements Serializable {
+public class Select implements Source, Serializable {
     private List<Column> columns;
     private Source source;
     private Condition where;
@@ -18,6 +18,11 @@ public class Select implements Serializable {
     private List<Order> orderBy;
     private Integer limit;
     private Integer offset;
+
+    @Override
+    public String getName() {
+        return "";
+    }
 }
 
 

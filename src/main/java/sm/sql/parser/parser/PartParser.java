@@ -209,7 +209,7 @@ public class PartParser<E extends PartType> {
 
     @Getter
     @RequiredArgsConstructor
-    private class Interval implements Comparable<Interval> {
+    public static class Interval implements Comparable<Interval> {
         private final int x;
         private final int y;
 

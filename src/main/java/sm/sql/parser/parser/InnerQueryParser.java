@@ -15,15 +15,18 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class InnerQueryParser implements Parser<Map<String, Select>> {
 
-    private final PartParser<CollectionPartType> partParser = new PartParser<>(false, CollectionPartType.BRACKET_OPEN, CollectionPartType.BRACKET_CLOSE);
+    private final BracketParser bracketParser = new BracketParser();
     private final SelectQueryParser selectQueryParser;
 
     @Override
     public Optional<Map<String, Select>> parse(String s) {
-        List<Part<CollectionPartType>> parts = partParser.getParts(s);
         Map<String, Select> selectMap = new HashMap<>();
-        for (Part<CollectionPartType> part : parts) {
-            parse(part).ifPresent(select -> selectMap.put(addBracket(part.getPart()), select));
+        Optional<List<String>> optional = bracketParser.parse(s);
+        if (optional.isPresent()) {
+            List<String> parts = optional.get();
+            for (String part : parts) {
+                selectQueryParser.parse(part).ifPresent(select -> selectMap.put(addBracket(part), select));
+            }
         }
 
         return Optional.of(selectMap);
@@ -33,12 +36,4 @@ public class InnerQueryParser implements Parser<Map<String, Select>> {
         return "(" + s + ")";
     }
 
-    private Optional<Select> parse(Part<CollectionPartType> part) {
-        switch (part.getType()) {
-            case BRACKET_OPEN -> {
-                return selectQueryParser.parse(part.getPart());
-            }
-        }
-        return Optional.empty();
-    }
 }

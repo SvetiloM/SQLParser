@@ -75,7 +75,7 @@ public class JoinParser implements Parser {
 
     private Join fillSecond(Part part, Join join) {
         if (join.getSecond() != null) {
-            Optional<Table> table = tableParser.parse(part.getPart());
+            Optional<Source> table = tableParser.parse(part.getPart());
             if (table.isPresent()) {
                 if (join.getSecond().getName().equals(table.get().getName())) {
                     Join inner = new Join();
@@ -92,7 +92,7 @@ public class JoinParser implements Parser {
 
     private Join fillFirst(Part part, Join join) {
         if (join.getFirst() != null) {
-            Optional<Table> table = tableParser.parse(part.getPart());
+            Optional<Source> table = tableParser.parse(part.getPart());
             if (table.isPresent()) {
                 if (join.getSecond().getName().equals(table.get().getName())) {
                     Join inner = new Join();

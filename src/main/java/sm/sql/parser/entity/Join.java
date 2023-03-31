@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Join implements Source {
-    private Table first;
+    private Source first;
     private Source second;
     private JoinType joinType;
     private Comparison comparison;
