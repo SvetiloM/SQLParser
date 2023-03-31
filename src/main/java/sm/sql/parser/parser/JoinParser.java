@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import sm.sql.parser.entity.Join;
 import sm.sql.parser.entity.Source;
-import sm.sql.parser.entity.Table;
 import sm.sql.parser.entity.part.JoinPartType;
 import sm.sql.parser.entity.part.Part;
 

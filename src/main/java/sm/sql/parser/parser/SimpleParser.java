@@ -6,7 +6,6 @@ import sm.sql.parser.entity.part.PartType;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiConsumer;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public abstract class SimpleParser<E extends PartType, T> implements Parser<T> {
