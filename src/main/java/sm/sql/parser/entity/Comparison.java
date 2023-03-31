@@ -20,6 +20,11 @@ public class Comparison implements Condition {
         NOT_EQUAL_EXCL,
         NOT_LESS,
         NOT_MORE,
-        LIKE;
+        LIKE,
+        IN,
+        ALL,
+        ANY,
+        SOME,
+        EXISTS
     }
 }

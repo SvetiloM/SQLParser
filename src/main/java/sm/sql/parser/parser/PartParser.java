@@ -1,6 +1,7 @@
 package sm.sql.parser.parser;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import sm.sql.parser.entity.part.Part;
 import sm.sql.parser.entity.part.PartType;
@@ -14,12 +15,25 @@ public class PartParser<E extends PartType> {
 
     private final E[] reservedWords;
 
+    private final List<Interval> ignoringIntervals = new ArrayList<>();
+    private final boolean useIgnoreIntervals;
+
     @SafeVarargs
     public PartParser(E... reservedWords) {
         this.reservedWords = reservedWords;
+        this.useIgnoreIntervals = true;
+    }
+
+    @SafeVarargs
+    public PartParser(boolean useIgnoreIntervals, E... reservedWords) {
+        this.reservedWords = reservedWords;
+        this.useIgnoreIntervals = useIgnoreIntervals;
     }
 
     public List<Part<E>> getParts(String s) {
+        if (useIgnoreIntervals) {
+            fillIgnoringIntervals(s);
+        }
         List<PartIndex> indexes = getReservedWordsIndexes(s);
         if (indexes.size() == 0) return Collections.emptyList();
 
@@ -49,6 +63,50 @@ public class PartParser<E extends PartType> {
         return parts;
     }
 
+    private void fillIgnoringIntervals(String s) {
+        char openBracket = '(';
+        char closeBracket = ')';
+        char quotes = '"';
+        char singleQuotes = '\'';
+
+        List<Interval> intervals = new ArrayList<>();
+
+        intervals.addAll(findIntervals(s, openBracket, closeBracket));
+        intervals.addAll(findIntervals(s, quotes, quotes));
+        intervals.addAll(findIntervals(s, singleQuotes, singleQuotes));
+
+        ignoringIntervals.addAll(mergeIntervals(intervals));
+    }
+
+    private List<Interval> findIntervals(String s, char open, char close) {
+        List<Interval> intervals = new ArrayList<>();
+        int i = 0;
+        while (i != -1) {
+            i = s.indexOf(open, i + 1);
+            if (i != -1) {
+                intervals.add(new Interval(i, s.indexOf(close, i)));
+            }
+        }
+        return intervals;
+    }
+
+    private List<Interval> mergeIntervals(List<Interval> intervals) {
+        if (intervals.size() < 2) return intervals;
+        Collections.sort(intervals);
+
+        List<Interval> merged = new ArrayList<>();
+
+        merged.add(intervals.get(0));
+        for (Interval interval : intervals) {
+            Interval lastMerged = merged.get(merged.size() - 1);
+            if (!(interval.x > lastMerged.x
+                    && interval.y < lastMerged.y)) {
+                merged.add(interval);
+            }
+        }
+        return merged;
+    }
+
     private List<PartIndex> getReservedWordsIndexes(String s) {
         List<PartIndex> indexes = new ArrayList<>();
         for (E reservedWord : reservedWords) {
@@ -66,7 +124,16 @@ public class PartParser<E extends PartType> {
         do {
             i = s.indexOf(reservedWord.getValue(), i + 1);
             if (i > -1) {
-                indexes.add(new PartIndex(reservedWord, i));
+                boolean ignore = false;
+                for (Interval ignoringInterval : ignoringIntervals) {
+                    if (i >= ignoringInterval.x && i <= ignoringInterval.y) {
+                        ignore = true;
+                        break;
+                    }
+                }
+                if (!ignore) {
+                    indexes.add(new PartIndex(reservedWord, i));
+                }
             }
         } while (i > -1);
         return indexes;
@@ -111,10 +178,20 @@ public class PartParser<E extends PartType> {
 
     private String createPartString(String s, E type, int start, int end) {
         String substring = s.substring(start, end);
-        if (substring.contains(type.getValue()))
-            substring = substring.replaceFirst(type.getValue(), "");
+        substring = remove(substring, type.getValue(), type.getDirection());
         substring = substring.trim();
         return substring;
+    }
+
+    private String remove(String from, String what, PartType.Direction direction) {
+        if (from.contains(what)) {
+            int i = from.indexOf(what);
+            if (direction.equals(PartType.Direction.BEFORE)) {
+                return from.substring(0, i);
+            }
+            return from.substring(i + what.length());
+        }
+        return from;
     }
 
     @AllArgsConstructor
@@ -127,6 +204,18 @@ public class PartParser<E extends PartType> {
             if (index > o2.index) return 1;
             if (index < o2.index) return -1;
             return 0;
+        }
+    }
+
+    @Getter
+    @RequiredArgsConstructor
+    private class Interval implements Comparable<Interval> {
+        private final int x;
+        private final int y;
+
+        @Override
+        public int compareTo(Interval o2) {
+            return Integer.compare(x, o2.getX());
         }
     }
 

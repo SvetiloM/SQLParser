@@ -3,7 +3,9 @@ package sm.sql.parser.entity.part;
 
 public enum CollectionPartType implements PartType {
 
-    ITEM(",", Direction.BEFORE);
+    COMMA(",", Direction.BEFORE),
+    BRACKET_OPEN("(", Direction.AFTER),
+    BRACKET_CLOSE(")", Direction.BEFORE);
 
     private final String reservedWord;
     private final Direction direction;

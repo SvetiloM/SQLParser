@@ -15,7 +15,7 @@ public class ConditionParser implements Parser {
 
     private final PartParser<ConnectionPartType> connectionPartParser = new PartParser<>(ConnectionPartType.values());
 
-    private final ComparisonParser comparisonParser;
+    private final CommonComparisonParser comparisonParser;
     private final ConnectionParser connectionParser;
 
     @Override

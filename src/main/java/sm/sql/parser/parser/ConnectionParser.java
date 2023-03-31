@@ -10,9 +10,9 @@ import java.util.Optional;
 
 @Component
 public class ConnectionParser extends SimpleParser<ConnectionPartType, Connection> {
-    private final ComparisonParser conditionParser;
+    private final CommonComparisonParser conditionParser;
 
-    public ConnectionParser(ComparisonParser conditionParser) {
+    public ConnectionParser(CommonComparisonParser conditionParser) {
         super(new PartParser<>(ConnectionPartType.values()), Connection::new);
         this.conditionParser = conditionParser;
     }
