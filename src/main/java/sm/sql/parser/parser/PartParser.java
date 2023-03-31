@@ -17,6 +17,7 @@ public class PartParser<E extends PartType> {
 
     public List<Part<E>> getParts(String s) {
         List<PartIndex> indexes = getReservedWordsIndexes(s);
+        if (indexes.size() == 0) return Collections.emptyList();
 
         List<Part<E>> parts = new ArrayList<>();
         int i = 0;
@@ -49,7 +50,6 @@ public class PartParser<E extends PartType> {
         for (E reservedWord : reservedWords) {
             indexes.addAll(findAllIndexes(s, reservedWord));
         }
-        if (indexes.size() == 0) return Collections.emptyList();
 
         Collections.sort(indexes);
 
@@ -84,8 +84,7 @@ public class PartParser<E extends PartType> {
             if (previousIndex.type.getValue().contains(index.type.getValue()) &&
                     !previousIndex.type.getValue().equals(index.type.getValue())) {
                 int lastIndex = previousIndex.index + previousIndex.type.getValue().length();
-                if (index.index < lastIndex)
-                {
+                if (index.index < lastIndex) {
                     j++; //delete this index
                 }
             } else {
@@ -98,6 +97,7 @@ public class PartParser<E extends PartType> {
     }
 
     private Optional<Part<E>> getLastElem(PartIndex prevIndex, String s) {
+        if (prevIndex.type.getDirection().equals(PartType.Direction.AFTER)) return Optional.empty();
         int end = s.length();
         String part = createPartString(s, prevIndex.type, prevIndex.index, end);
         if (!part.isEmpty())
