@@ -1,6 +1,7 @@
 package sm.sql.parser;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import sm.sql.parser.entity.Select;
 import sm.sql.parser.parser.InnerQueryCache;
 import sm.sql.parser.parser.SelectQueryParser;
@@ -8,6 +9,7 @@ import sm.sql.parser.parser.SelectQueryParser;
 import java.util.Map;
 import java.util.Optional;
 
+@Component
 @RequiredArgsConstructor
 public class ParseService {
     private final InnerQueryCache innerQueryParser;

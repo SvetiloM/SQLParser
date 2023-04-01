@@ -1,5 +1,6 @@
 package sm.sql.parser.parser;
 
+import org.springframework.stereotype.Component;
 import sm.sql.parser.entity.Comparison;
 import sm.sql.parser.entity.Select;
 import sm.sql.parser.entity.part.Part;
@@ -7,6 +8,7 @@ import sm.sql.parser.entity.part.SampleComparisonPartType;
 
 import java.util.Map;
 
+@Component
 public class SampleComparisonParser extends SimpleParser<SampleComparisonPartType, Comparison> {
 
     private final ColumnParser columnParser;

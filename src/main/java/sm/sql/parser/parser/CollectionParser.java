@@ -1,5 +1,6 @@
 package sm.sql.parser.parser;
 
+import org.springframework.stereotype.Component;
 import sm.sql.parser.entity.part.Part;
 import sm.sql.parser.entity.part.PartType;
 
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public abstract class CollectionParser<E extends PartType, I extends PartType, T> implements Parser<List<T>> {
 
     private final PartParser<E> partParser;

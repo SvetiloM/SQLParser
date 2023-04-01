@@ -16,24 +16,14 @@ public class PartParser<E extends PartType> {
     private final E[] reservedWords;
 
     private final List<Interval> ignoringIntervals = new ArrayList<>();
-    private final boolean useIgnoreIntervals;
 
     @SafeVarargs
     public PartParser(E... reservedWords) {
         this.reservedWords = reservedWords;
-        this.useIgnoreIntervals = true;
-    }
-
-    @SafeVarargs
-    public PartParser(boolean useIgnoreIntervals, E... reservedWords) {
-        this.reservedWords = reservedWords;
-        this.useIgnoreIntervals = useIgnoreIntervals;
     }
 
     public List<Part<E>> getParts(String s) {
-        if (useIgnoreIntervals) {
-            fillIgnoringIntervals(s);
-        }
+        fillIgnoringIntervals(s);
         List<PartIndex> indexes = getReservedWordsIndexes(s);
         if (indexes.size() == 0) return Collections.emptyList();
 

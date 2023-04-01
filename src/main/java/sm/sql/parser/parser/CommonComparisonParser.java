@@ -1,10 +1,12 @@
 package sm.sql.parser.parser;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import sm.sql.parser.entity.Comparison;
 import sm.sql.parser.entity.Condition;
 import java.util.Optional;
 
+@Component
 @RequiredArgsConstructor
 public class CommonComparisonParser implements Parser {
 

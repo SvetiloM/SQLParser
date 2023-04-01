@@ -1,7 +1,11 @@
 package sm.sql.parser.parser;
 
+import org.springframework.stereotype.Component;
+
 import java.util.*;
 
+
+@Component
 public class BracketParser implements Parser<List<String>> {
 
     @Override
