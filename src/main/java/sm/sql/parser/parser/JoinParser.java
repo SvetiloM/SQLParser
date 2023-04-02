@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import sm.sql.parser.entity.Join;
 import sm.sql.parser.entity.Source;
-import sm.sql.parser.entity.Table;
 import sm.sql.parser.entity.part.JoinPartType;
 import sm.sql.parser.entity.part.Part;
 
@@ -17,7 +16,7 @@ public class JoinParser implements Parser {
 
     private final PartParser<JoinPartType> partParser = new PartParser<>(JoinPartType.values());
     private final TableParser tableParser;
-    private final ComparisonParser conditionParser;
+    private final ComparisonParser comparisonParser;
 
     @Override
     public Optional<? extends Source> parse(String part) {
@@ -68,7 +67,7 @@ public class JoinParser implements Parser {
                 join.setJoinType(Join.JoinType.FULL_JOIN);
                 return fillSecond(part, join);
             }
-            case ON -> conditionParser.parse(part.getPart()).ifPresent(join::setComparison);
+            case ON -> comparisonParser.parse(part.getPart()).ifPresent(join::setComparison);
         }
         return join;
     }

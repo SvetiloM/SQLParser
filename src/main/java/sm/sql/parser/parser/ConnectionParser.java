@@ -10,11 +10,11 @@ import java.util.Optional;
 
 @Component
 public class ConnectionParser extends SimpleParser<ConnectionPartType, Connection> {
-    private final CommonComparisonParser conditionParser;
+    private final CommonComparisonParser commonComparisonParser;
 
-    public ConnectionParser(CommonComparisonParser conditionParser) {
+    public ConnectionParser(CommonComparisonParser commonComparisonParser) {
         super(new PartParser<>(ConnectionPartType.values()), Connection::new);
-        this.conditionParser = conditionParser;
+        this.commonComparisonParser = commonComparisonParser;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class ConnectionParser extends SimpleParser<ConnectionPartType, Connectio
         Optional<Connection> innerCondition = parse(part.getPart());
         //todo optional
         if (innerCondition.isEmpty()) {
-            return conditionParser.parse(part.getPart()).orElse(null);
+            return commonComparisonParser.parse(part.getPart()).orElse(null);
         } else {
             return innerCondition.get();
         }
