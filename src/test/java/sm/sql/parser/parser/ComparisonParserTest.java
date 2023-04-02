@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import sm.sql.parser.entity.Column;
 import sm.sql.parser.entity.Comparison;
 
 import java.util.Optional;
@@ -21,44 +20,44 @@ public class ComparisonParserTest {
                         columnGenerator("3", null, "2"),
                         Comparison.ConnectionType.MORE)),
                 Arguments.of("1 > 2", comparisonGenerator(
-                        columnGenerator("1", null, null),
-                        columnGenerator("2", null, null),
+                        columnGenerator("1"),
+                        columnGenerator("2"),
                         Comparison.ConnectionType.MORE)),
                 Arguments.of("1.2 > 2", comparisonGenerator(
                         columnGenerator("2", null, "1"),
-                        columnGenerator("2", null, null),
+                        columnGenerator("2"),
                         Comparison.ConnectionType.MORE)),
                 Arguments.of("1 > 1.2", comparisonGenerator(
-                        columnGenerator("1", null, null),
+                        columnGenerator("1"),
                         columnGenerator("2", null, "1"),
                         Comparison.ConnectionType.MORE)),
                 Arguments.of("1 < 2", comparisonGenerator(
-                        columnGenerator("1", null, null),
-                        columnGenerator("2", null, null),
+                        columnGenerator("1"),
+                        columnGenerator("2"),
                         Comparison.ConnectionType.LESS)),
                 Arguments.of("1 >= 2", comparisonGenerator(
-                        columnGenerator("1", null, null),
-                        columnGenerator("2", null, null),
+                        columnGenerator("1"),
+                        columnGenerator("2"),
                         Comparison.ConnectionType.MORE_OR_EQUAL)),
                 Arguments.of("1 <= 2", comparisonGenerator(
-                        columnGenerator("1", null, null),
-                        columnGenerator("2", null, null),
+                        columnGenerator("1"),
+                        columnGenerator("2"),
                         Comparison.ConnectionType.LESS_OR_EQUAL)),
                 Arguments.of("1 <> 2", comparisonGenerator(
-                        columnGenerator("1", null, null),
-                        columnGenerator("2", null, null),
+                        columnGenerator("1"),
+                        columnGenerator("2"),
                         Comparison.ConnectionType.NOT_EQUAL)),
                 Arguments.of("1 != 2", comparisonGenerator(
-                        columnGenerator("1", null, null),
-                        columnGenerator("2", null, null),
+                        columnGenerator("1"),
+                        columnGenerator("2"),
                         Comparison.ConnectionType.NOT_EQUAL_EXCL)),
                 Arguments.of("1 !< 2", comparisonGenerator(
-                        columnGenerator("1", null, null),
-                        columnGenerator("2", null, null),
+                        columnGenerator("1"),
+                        columnGenerator("2"),
                         Comparison.ConnectionType.NOT_LESS)),
                 Arguments.of("1 !> 2", comparisonGenerator(
-                        columnGenerator("1", null, null),
-                        columnGenerator("2", null, null),
+                        columnGenerator("1"),
+                        columnGenerator("2"),
                         Comparison.ConnectionType.NOT_MORE))
         );
     }
