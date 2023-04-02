@@ -1,12 +1,6 @@
 package sm.sql.parser.entity.part;
 
 public enum ComparisonPartType implements PartType {
-    EQUAL_LEFT("=", Direction.BEFORE),
-    EQUAL_RIGHT("=", Direction.AFTER),
-    MORE_LEFT(">", Direction.BEFORE),
-    MORE_RIGHT(">", Direction.AFTER),
-    LESS_LEFT("<", Direction.BEFORE),
-    LESS_RIGHT("<", Direction.AFTER),
     LIKE_LEFT("like", Direction.BEFORE),
     LIKE_RIGHT("like", Direction.AFTER),
     MORE_OR_EQUAL_LEFT(">=", Direction.BEFORE),
@@ -20,7 +14,14 @@ public enum ComparisonPartType implements PartType {
     NOT_LESS_LEFT("!<", Direction.BEFORE),
     NOT_LESS_RIGHT("!<", Direction.AFTER),
     NOT_MORE_LEFT("!>", Direction.BEFORE),
-    NOT_MORE_RIGHT("!>", Direction.AFTER);
+    NOT_MORE_RIGHT("!>", Direction.AFTER),
+    EQUAL_LEFT("=", Direction.BEFORE),
+    EQUAL_RIGHT("=", Direction.AFTER),
+    MORE_LEFT(">", Direction.BEFORE),
+    MORE_RIGHT(">", Direction.AFTER),
+    LESS_LEFT("<", Direction.BEFORE),
+    LESS_RIGHT("<", Direction.AFTER),
+    ;
 
     private final String reservedWord;
     private final Direction direction;

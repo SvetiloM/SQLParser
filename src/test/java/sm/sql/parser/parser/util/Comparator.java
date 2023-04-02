@@ -1,6 +1,7 @@
 package sm.sql.parser.parser.util;
 
 import sm.sql.parser.entity.Column;
+import sm.sql.parser.entity.Comparison;
 import sm.sql.parser.entity.Order;
 
 import java.util.List;
@@ -21,6 +22,24 @@ public class Comparator {
         order.setColumn(column);
         order.setType(orderType);
         return order;
+    }
+
+    public static Comparison comparisonGenerator(Column left, Column right, Comparison.ConnectionType connectionType) {
+        Comparison comparison = new Comparison();
+        comparison.setLeft(left);
+        comparison.setRight(right);
+        comparison.setType(connectionType);
+        return comparison;
+    }
+
+    public static boolean compareComparisons(Comparison comparison, Comparison expectedComparison) {
+        boolean lefts = compareColumns(comparison.getLeft(), expectedComparison.getLeft());
+        boolean rights = false;
+        if (comparison.getRight() instanceof Column && expectedComparison.getRight() instanceof Column) {
+            rights = compareColumns((Column) comparison.getRight(), (Column) expectedComparison.getRight());
+        }
+        boolean types = comparison.getType().equals(expectedComparison.getType());
+        return lefts && rights && types;
     }
 
     public static boolean compareOrders(Order order, Order expectedOrder) {
