@@ -16,10 +16,10 @@ public class ColumnParserTest {
 
     public static Stream<Arguments> source() {
         return Stream.of(
-                Arguments.of("3.1 as 2", columnGenerator.apply(new String[]{"1", "2", "3"})),
-                Arguments.of("3.1", columnGenerator.apply(new String[]{"1", null, "3"})),
-                Arguments.of("1 as 2", columnGenerator.apply(new String[]{"1", "2", null})),
-                Arguments.of("1", columnGenerator.apply(new String[]{"1", null, null}))
+                Arguments.of("3.1 as 2", columnGenerator("1", "2", "3")),
+                Arguments.of("3.1", columnGenerator("1", null, "3")),
+                Arguments.of("1 as 2", columnGenerator("1", "2", null)),
+                Arguments.of("1", columnGenerator("1", null, null))
         );
     }
 
