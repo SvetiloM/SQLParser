@@ -14,7 +14,11 @@ public class Comparator {
         return column;
     }
 
-    ;
+    public static Column columnGenerator(String name) {
+        Column column = new Column();
+        column.setColumnName(name);
+        return column;
+    }
 
     public static Order orderGenerator(Column column, Order.OrderType orderType) {
         Order order = new Order();
@@ -24,6 +28,14 @@ public class Comparator {
     }
 
     public static Comparison comparisonGenerator(Column left, Column right, Comparison.ConnectionType connectionType) {
+        Comparison comparison = new Comparison();
+        comparison.setLeft(left);
+        comparison.setRight(right);
+        comparison.setType(connectionType);
+        return comparison;
+    }
+
+    public static Comparison comparisonGenerator(Column left, Source right, Comparison.ConnectionType connectionType) {
         Comparison comparison = new Comparison();
         comparison.setLeft(left);
         comparison.setRight(right);
@@ -46,17 +58,55 @@ public class Comparator {
     }
 
     public static boolean compareSources(Source source, Source expectedSource) {
-        if (source instanceof Table && expectedSource instanceof Table)
+        if (source instanceof Table && expectedSource instanceof Table) {
             return compareTables((Table) source, (Table) expectedSource);
+        } else if (source instanceof Select && expectedSource instanceof Select) {
+            return compareSelects((Select) source, (Select) expectedSource);
+        }
         return false;
     }
 
+    public static boolean compareSelects(Select select, Select expectedSelect) {
+        boolean columns = compareColumns(select.getColumns(), expectedSelect.getColumns());
+        boolean sources = compareSources(select.getSource(), expectedSelect.getSource());
+        boolean wheres = (select.getWhere() == null && expectedSelect.getWhere() == null)
+                || compareConditions(select.getWhere(), expectedSelect.getWhere());
+        boolean groups = (select.getGroupBy() == null && expectedSelect.getGroupBy() == null)
+                || compareColumns(select.getGroupBy(), expectedSelect.getGroupBy());
+        boolean havings = (select.getHaving() == null && expectedSelect.getHaving() == null)
+                || compareConditions(select.getHaving(), expectedSelect.getHaving());
+        boolean orders = (select.getOrderBy() == null && expectedSelect.getOrderBy() == null)
+                || compareOrders(select.getOrderBy(), expectedSelect.getOrderBy());
+        boolean limits = select.getLimit() == expectedSelect.getLimit();
+        boolean offsets = select.getOffset() == expectedSelect.getOffset();
+
+        return columns && sources && wheres && groups && havings && orders && limits && offsets;
+    }
+
+    private static boolean compareConditions(Condition condition, Condition expectedCondition) {
+        if (condition instanceof Comparison && expectedCondition instanceof Comparison) {
+            return compareComparisons((Comparison) condition, (Comparison) expectedCondition);
+        } else if (condition instanceof Connection && expectedCondition instanceof Connection) {
+            return compareConnections((Connection) condition, (Connection) expectedCondition);
+        }
+        return false;
+    }
+
+    private static boolean compareConnections(Connection connection, Connection expectedConnection) {
+        boolean types = connection.getConnectionType().equals(expectedConnection.getConnectionType());
+        boolean lefts = compareConditions(connection.getLeft(), expectedConnection.getLeft());
+        boolean right = compareConditions(connection.getRight(), expectedConnection.getRight());
+
+        return types && lefts && right;
+    }
 
     public static boolean compareComparisons(Comparison comparison, Comparison expectedComparison) {
         boolean lefts = compareColumns(comparison.getLeft(), expectedComparison.getLeft());
         boolean rights = false;
         if (comparison.getRight() instanceof Column && expectedComparison.getRight() instanceof Column) {
             rights = compareColumns((Column) comparison.getRight(), (Column) expectedComparison.getRight());
+        } else if (comparison.getRight() instanceof Source && expectedComparison.getRight() instanceof Source) {
+            rights = compareSources((Source) comparison.getRight(), (Source) expectedComparison.getRight());
         }
         boolean types = comparison.getType().equals(expectedComparison.getType());
         return lefts && rights && types;
@@ -68,30 +118,30 @@ public class Comparator {
         return types && columns;
     }
 
-    public static boolean compareColumns(Column o1, Column o2) {
-        boolean names = o1.getColumnName().equals(o2.getColumnName());
-        boolean aliases = (o1.getAlias() == null && o2.getAlias() == null) || (o1.getAlias().equals(o2.getAlias()));
-        boolean tables = (o1.getTable() == null && o2.getTable() == null) || (o1.getTable().equals(o2.getTable()));
+    public static boolean compareOrders(List<Order> orders, List<Order> expectedOrders) {
+        if (orders.size() == expectedOrders.size()) {
+            for (int i = 0; i < orders.size(); i++) {
+                if (!compareOrders(orders.get(i), expectedOrders.get(i)))
+                    return false;
+            }
+        } else return false;
+        return true;
+    }
+
+    public static boolean compareColumns(Column column, Column expectedColumn) {
+        boolean names = column.getColumnName().equals(expectedColumn.getColumnName());
+        boolean aliases = (column.getAlias() == null && expectedColumn.getAlias() == null) || (column.getAlias().equals(expectedColumn.getAlias()));
+        boolean tables = (column.getTable() == null && expectedColumn.getTable() == null) || (column.getTable().equals(expectedColumn.getTable()));
         return names && aliases && tables;
     }
 
-    public static boolean compareColumns(List<Column> o1, List<Column> o2) {
-        return o1.equals(o2);
-    }
+    public static boolean compareColumns(List<Column> columns, List<Column> expectedColumns) {
+        if (columns.size() == expectedColumns.size()) {
+            for (int i = 0; i < columns.size(); i++) {
+                if (!compareColumns(columns.get(i), expectedColumns.get(i)))
+                    return false;
+            }
+        } else return false;
+        return true;    }
 
-//    public static boolean compareColumns(Condition l1, List<Column> l2) {
-//        if (l1.size() != l2.size()) return false;
-//        for (int i = 0; i < l1.size(); i++) {
-//            if (!compareColumns(l1.get(i), l2.get(i))) return false;
-//        }
-//        return true;
-//    }
-//
-//    public static boolean compareConditions(Condition c1, Condition c2) {
-//        boolean lefts = compareColumns(c1.getLeft(), c2.getLeft());
-//        boolean rights = compareColumns(c1.getRight(), c2.getRight());
-//        boolean types = c1.getType().equals(c2.getType());
-//
-//        return lefts && rights && types;
-//    }
 }

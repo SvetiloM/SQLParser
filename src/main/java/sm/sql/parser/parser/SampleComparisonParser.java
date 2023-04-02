@@ -36,6 +36,7 @@ public class SampleComparisonParser extends SimpleParser<SampleComparisonPartTyp
                 pojo.setType(Comparison.ConnectionType.ALL);
             }
             case ALL_RIGHT -> {
+                pojo.setRight(innerQueries.get(part.getPart()));
                 pojo.setType(Comparison.ConnectionType.ALL);
             }
             case ANY_LEFT -> {
@@ -43,6 +44,7 @@ public class SampleComparisonParser extends SimpleParser<SampleComparisonPartTyp
                 pojo.setType(Comparison.ConnectionType.ANY);
             }
             case ANY_RIGHT -> {
+                pojo.setRight(innerQueries.get(part.getPart()));
                 pojo.setType(Comparison.ConnectionType.ANY);
             }
             case SOME_LEFT -> {
@@ -50,6 +52,7 @@ public class SampleComparisonParser extends SimpleParser<SampleComparisonPartTyp
                 pojo.setType(Comparison.ConnectionType.SOME);
             }
             case SOME_RIGHT -> {
+                pojo.setRight(innerQueries.get(part.getPart()));
                 pojo.setType(Comparison.ConnectionType.SOME);
             }
             case EXISTS_LEFT -> {
@@ -57,6 +60,7 @@ public class SampleComparisonParser extends SimpleParser<SampleComparisonPartTyp
                 pojo.setType(Comparison.ConnectionType.EXISTS);
             }
             case EXISTS_RIGHT -> {
+                pojo.setRight(innerQueries.get(part.getPart()));
                 pojo.setType(Comparison.ConnectionType.EXISTS);
             }
         }

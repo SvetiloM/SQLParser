@@ -5,10 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Connection implements Condition{
-    //todo condition
-    private Object left;
-    private Object right;
+public class Connection implements Condition {
+    private Condition left;
+    private Condition right;
     private ConnectionType connectionType;
 
     public enum ConnectionType {
