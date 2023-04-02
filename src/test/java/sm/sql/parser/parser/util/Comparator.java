@@ -1,11 +1,8 @@
 package sm.sql.parser.parser.util;
 
-import sm.sql.parser.entity.Column;
-import sm.sql.parser.entity.Comparison;
-import sm.sql.parser.entity.Order;
+import sm.sql.parser.entity.*;
 
 import java.util.List;
-import java.util.function.Function;
 
 public class Comparator {
 
@@ -15,7 +12,9 @@ public class Comparator {
         column.setTable(table);
         column.setAlias(alias);
         return column;
-    };
+    }
+
+    ;
 
     public static Order orderGenerator(Column column, Order.OrderType orderType) {
         Order order = new Order();
@@ -31,6 +30,27 @@ public class Comparator {
         comparison.setType(connectionType);
         return comparison;
     }
+
+    public static Table tableGenerator(String name, String alias) {
+        Table table = new Table();
+        table.setName(name);
+        table.setAlias(alias);
+        return table;
+    }
+
+    private static boolean compareTables(Table table, Table expectedTable) {
+        boolean names = table.getName().equals(expectedTable.getName());
+        boolean aliases = (table.getAlias() == null && expectedTable.getAlias() == null) ||
+                table.getAlias().equals(expectedTable.getAlias());
+        return names && aliases;
+    }
+
+    public static boolean compareSources(Source source, Source expectedSource) {
+        if (source instanceof Table && expectedSource instanceof Table)
+            return compareTables((Table) source, (Table) expectedSource);
+        return false;
+    }
+
 
     public static boolean compareComparisons(Comparison comparison, Comparison expectedComparison) {
         boolean lefts = compareColumns(comparison.getLeft(), expectedComparison.getLeft());
