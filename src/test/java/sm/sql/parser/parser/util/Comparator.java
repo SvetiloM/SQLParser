@@ -102,7 +102,7 @@ public class Comparator {
         return columns && sources && wheres && groups && havings && orders && limits && offsets;
     }
 
-    private static boolean compareConditions(Condition condition, Condition expectedCondition) {
+    public static boolean compareConditions(Condition condition, Condition expectedCondition) {
         if (condition instanceof Comparison && expectedCondition instanceof Comparison) {
             return compareComparisons((Comparison) condition, (Comparison) expectedCondition);
         } else if (condition instanceof Connection && expectedCondition instanceof Connection) {
