@@ -50,6 +50,15 @@ public class Comparator {
         return table;
     }
 
+    public static Join joinGenerator(Source first, Source second, Join.JoinType joinType, Comparison comparison) {
+        Join join = new Join();
+        join.setFirst(first);
+        join.setSecond(second);
+        join.setJoinType(joinType);
+        join.setComparison(comparison);
+        return join;
+    }
+
     private static boolean compareTables(Table table, Table expectedTable) {
         boolean names = table.getName().equals(expectedTable.getName());
         boolean aliases = (table.getAlias() == null && expectedTable.getAlias() == null) ||
@@ -62,8 +71,18 @@ public class Comparator {
             return compareTables((Table) source, (Table) expectedSource);
         } else if (source instanceof Select && expectedSource instanceof Select) {
             return compareSelects((Select) source, (Select) expectedSource);
+        } else if (source instanceof Join && expectedSource instanceof Join) {
+            return compareJoints((Join) source, (Join) expectedSource);
         }
         return false;
+    }
+
+    public static boolean compareJoints(Join join, Join expectedJoin) {
+        boolean firsts = compareSources(join.getFirst(), expectedJoin.getFirst());
+        boolean seconds = compareSources(join.getSecond(), expectedJoin.getSecond());
+        boolean types = join.getJoinType().equals(expectedJoin.getJoinType());
+        boolean comparsions = compareComparisons(join.getComparison(), expectedJoin.getComparison());
+        return firsts && seconds && types && comparsions;
     }
 
     public static boolean compareSelects(Select select, Select expectedSelect) {
@@ -142,6 +161,7 @@ public class Comparator {
                     return false;
             }
         } else return false;
-        return true;    }
+        return true;
+    }
 
 }

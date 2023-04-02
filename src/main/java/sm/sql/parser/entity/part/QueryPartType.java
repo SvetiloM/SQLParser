@@ -5,7 +5,7 @@ import java.util.Map;
 
 public enum QueryPartType implements PartType {
 
-    SELECT("select", Direction.AFTER);
+    SELECT("select ", Direction.AFTER);
 
     private final String reservedWord;
     private final Direction direction;

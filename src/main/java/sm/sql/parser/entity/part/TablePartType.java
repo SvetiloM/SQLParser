@@ -5,8 +5,8 @@ import java.util.Map;
 
 public enum TablePartType implements PartType {
 
-    NAME_BEFORE_ALIAS("as", Direction.BEFORE),
-    ALIAS("as", Direction.AFTER);
+    NAME_BEFORE_ALIAS(" as ", Direction.BEFORE),
+    ALIAS(" as ", Direction.AFTER);
 
     private final String reservedWord;
     private final Direction direction;

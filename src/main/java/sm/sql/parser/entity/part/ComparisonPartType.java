@@ -1,8 +1,8 @@
 package sm.sql.parser.entity.part;
 
 public enum ComparisonPartType implements PartType {
-    LIKE_LEFT("like", Direction.BEFORE),
-    LIKE_RIGHT("like", Direction.AFTER),
+    LIKE_LEFT(" like ", Direction.BEFORE),
+    LIKE_RIGHT(" like ", Direction.AFTER),
     MORE_OR_EQUAL_LEFT(">=", Direction.BEFORE),
     MORE_OR_EQUAL_RIGHT(">=", Direction.AFTER),
     LESS_OR_EQUAL_LEFT("<=", Direction.BEFORE),

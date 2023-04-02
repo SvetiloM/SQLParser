@@ -9,8 +9,8 @@ public enum ColumnPartType implements PartType {
 
     NAME_AFTER_TABLE(".", Direction.AFTER),
 
-    NAME_BEFORE_ALIAS("as", Direction.BEFORE),
-    ALIAS("as", Direction.AFTER);
+    NAME_BEFORE_ALIAS(" as ", Direction.BEFORE),
+    ALIAS(" as ", Direction.AFTER);
 
     private final String reservedWord;
     private final Direction direction;

@@ -5,9 +5,9 @@ import java.util.Map;
 
 public enum OrderPartType implements PartType {
 
-    ASC("asc", Direction.BEFORE),
+    ASC(" asc", Direction.BEFORE),
 
-    DESC("desc", Direction.BEFORE);
+    DESC(" desc", Direction.BEFORE);
 
     private final String reservedWord;
     private final Direction direction;

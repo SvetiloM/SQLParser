@@ -1,10 +1,10 @@
 package sm.sql.parser.entity.part;
 
 public enum ConnectionPartType implements PartType {
-    OR_LEFT("or", Direction.BEFORE),
-    OR_RIGHT("or", Direction.AFTER),
-    AND_LEFT("and", Direction.BEFORE),
-    AND_RIGHT("and", Direction.AFTER);
+    OR_LEFT(" or ", Direction.BEFORE),
+    OR_RIGHT(" or ", Direction.AFTER),
+    AND_LEFT(" and ", Direction.BEFORE),
+    AND_RIGHT(" and ", Direction.AFTER);
 
     private final String reservedWord;
     private final Direction direction;

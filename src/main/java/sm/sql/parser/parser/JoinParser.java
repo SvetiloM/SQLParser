@@ -36,69 +36,48 @@ public class JoinParser implements Parser {
     private Join parse(Part<JoinPartType> part, Join join) {
         switch (part.getType()) {
             case OLD_INNER_JOIN_LEFT, INNER_JOIN_FIRST -> {
-                join.setJoinType(Join.JoinType.INNER_JOIN);
-                return fillFirst(part,join);
-            }
-            case OLD_INNER_JOIN_RIGHT, INNER_JOIN_SECOND -> {
-                join.setJoinType(Join.JoinType.INNER_JOIN);
-                return fillSecond(part, join);
+                Join newJoin = fillFirst(part, join);
+                newJoin.setJoinType(Join.JoinType.INNER_JOIN);
+                return newJoin;
             }
             case LEFT_JOIN_FIRST -> {
-                join.setJoinType(Join.JoinType.LEFT_JOIN);
-                return fillFirst(part,join);
-            }
-            case LEFT_JOIN_SECOND -> {
-                join.setJoinType(Join.JoinType.LEFT_JOIN);
-                return fillSecond(part, join);
+                Join newJoin = fillFirst(part, join);
+                newJoin.setJoinType(Join.JoinType.LEFT_JOIN);
+                return newJoin;
             }
             case RIGHT_JOIN_FIRST -> {
-                join.setJoinType(Join.JoinType.RIGHT_JOIN);
-                return fillFirst(part,join);
-            }
-            case RIGHT_JOIN_SECOND -> {
-                join.setJoinType(Join.JoinType.RIGHT_JOIN);
-                return fillSecond(part, join);
+                Join newJoin = fillFirst(part, join);
+                newJoin.setJoinType(Join.JoinType.RIGHT_JOIN);
+                return newJoin;
             }
             case FULL_JOIN_FIRST -> {
-                join.setJoinType(Join.JoinType.FULL_JOIN);
-                return fillFirst(part,join);
+                Join newJoin = fillFirst(part, join);
+                newJoin.setJoinType(Join.JoinType.FULL_JOIN);
+                return newJoin;
             }
-            case FULL_JOIN_SECOND -> {
-                join.setJoinType(Join.JoinType.FULL_JOIN);
-                return fillSecond(part, join);
+            case OLD_INNER_JOIN_RIGHT, INNER_JOIN_SECOND, FULL_JOIN_SECOND, RIGHT_JOIN_SECOND, LEFT_JOIN_SECOND -> {
+                tableParser.parse(part.getPart()).ifPresent(join::setSecond);
             }
             case ON -> comparisonParser.parse(part.getPart()).ifPresent(join::setComparison);
         }
         return join;
     }
 
-    private Join fillSecond(Part part, Join join) {
-        if (join.getSecond() != null) {
-            Optional<Source> table = tableParser.parse(part.getPart());
-            if (table.isPresent()) {
-                if (join.getSecond().getName().equals(table.get().getName())) {
-                    Join inner = new Join();
-                    inner.setFirst(table.get());
-                    join.setSecond(inner);
-                    return inner;
-                }
-            }
-        } else {
-            tableParser.parse(part.getPart()).ifPresent(join::setSecond);
-        }
-        return join;
-    }
-
     private Join fillFirst(Part part, Join join) {
         if (join.getFirst() != null) {
-            Optional<Source> table = tableParser.parse(part.getPart());
-            if (table.isPresent()) {
-                if (join.getSecond().getName().equals(table.get().getName())) {
-                    Join inner = new Join();
-                    inner.setFirst(table.get());
-                    join.setSecond(inner);
-                    return inner;
-                }
+            if (comparisonParser.parse(part.getPart()).isPresent()) {
+                Join inner = new Join();
+                //todo copy
+                inner.setFirst(join.getFirst());
+                inner.setSecond(join.getSecond());
+                inner.setJoinType(join.getJoinType());
+                inner.setComparison(join.getComparison());
+                join.setFirst(inner);
+                join.setSecond(null);
+                join.setComparison(null);
+                join.setJoinType(null);
+
+                return join;
             }
         } else {
             tableParser.parse(part.getPart()).ifPresent(join::setFirst);
