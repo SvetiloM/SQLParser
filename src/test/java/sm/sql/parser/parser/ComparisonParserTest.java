@@ -58,7 +58,11 @@ public class ComparisonParserTest {
                 Arguments.of("1 !> 2", comparisonGenerator(
                         columnGenerator("1"),
                         columnGenerator("2"),
-                        Comparison.ConnectionType.NOT_MORE))
+                        Comparison.ConnectionType.NOT_MORE)),
+                Arguments.of("1 like \'jjjj\'", comparisonGenerator(
+                        columnGenerator("1"),
+                        "\'jjjj\'",
+                        Comparison.ConnectionType.LIKE))
         );
     }
 

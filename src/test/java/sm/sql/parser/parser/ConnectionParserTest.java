@@ -33,6 +33,10 @@ public class ConnectionParserTest {
                 Arguments.of("a>b and b>c or f>c", connectionGenerator(
                         connectionGenerator(aMoreB, bMoreC, Connection.ConnectionType.AND),
                         fMoreC,
+                        Connection.ConnectionType.OR)),
+                Arguments.of("a>b and b>c or a>b and f>c", connectionGenerator(
+                        connectionGenerator(aMoreB, bMoreC, Connection.ConnectionType.AND),
+                        connectionGenerator(aMoreB, fMoreC, Connection.ConnectionType.AND),
                         Connection.ConnectionType.OR))
         );
     }

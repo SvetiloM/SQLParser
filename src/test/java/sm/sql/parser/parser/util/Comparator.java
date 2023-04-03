@@ -27,15 +27,7 @@ public class Comparator {
         return order;
     }
 
-    public static Comparison comparisonGenerator(Column left, Column right, Comparison.ConnectionType connectionType) {
-        Comparison comparison = new Comparison();
-        comparison.setLeft(left);
-        comparison.setRight(right);
-        comparison.setType(connectionType);
-        return comparison;
-    }
-
-    public static Comparison comparisonGenerator(Column left, Source right, Comparison.ConnectionType connectionType) {
+    public static Comparison comparisonGenerator(Column left, Object right, Comparison.ConnectionType connectionType) {
         Comparison comparison = new Comparison();
         comparison.setLeft(left);
         comparison.setRight(right);
@@ -156,6 +148,8 @@ public class Comparator {
             rights = compareColumns((Column) comparison.getRight(), (Column) expectedComparison.getRight());
         } else if (comparison.getRight() instanceof Source && expectedComparison.getRight() instanceof Source) {
             rights = compareSources((Source) comparison.getRight(), (Source) expectedComparison.getRight());
+        } else if (comparison.getRight() instanceof String && expectedComparison.getRight() instanceof String) {
+            rights = comparison.getRight().equals(expectedComparison.getRight());
         }
         boolean types = comparison.getType().equals(expectedComparison.getType());
         return lefts && rights && types;
