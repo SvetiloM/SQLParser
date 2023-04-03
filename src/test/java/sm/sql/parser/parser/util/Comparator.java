@@ -140,7 +140,7 @@ public class Comparator {
         return false;
     }
 
-    private static boolean compareConnections(Connection connection, Connection expectedConnection) {
+    public static boolean compareConnections(Connection connection, Connection expectedConnection) {
         boolean types = connection.getConnectionType().equals(expectedConnection.getConnectionType());
         boolean lefts = compareConditions(connection.getLeft(), expectedConnection.getLeft());
         boolean right = compareConditions(connection.getRight(), expectedConnection.getRight());
