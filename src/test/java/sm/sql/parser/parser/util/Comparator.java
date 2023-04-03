@@ -43,10 +43,25 @@ public class Comparator {
         return comparison;
     }
 
+    public static Connection connectionGenerator(Condition left, Condition right, Connection.ConnectionType connectionType) {
+        Connection connection = new Connection();
+        connection.setLeft(left);
+        connection.setRight(right);
+        connection.setConnectionType(connectionType);
+        return connection;
+    }
+
+
     public static Table tableGenerator(String name, String alias) {
         Table table = new Table();
         table.setName(name);
         table.setAlias(alias);
+        return table;
+    }
+
+    public static Table tableGenerator(String name) {
+        Table table = new Table();
+        table.setName(name);
         return table;
     }
 
@@ -57,6 +72,20 @@ public class Comparator {
         join.setJoinType(joinType);
         join.setComparison(comparison);
         return join;
+    }
+
+    public static Select selectGenerator(List<Column> columns, Source source, Condition where) {
+        Select select = new Select();
+        select.setColumns(columns);
+        select.setSource(source);
+        select.setWhere(where);
+        return select;
+    }
+    public static Select selectGenerator(List<Column> columns, Source source) {
+        Select select = new Select();
+        select.setColumns(columns);
+        select.setSource(source);
+        return select;
     }
 
     private static boolean compareTables(Table table, Table expectedTable) {
