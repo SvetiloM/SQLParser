@@ -103,6 +103,10 @@ public class PartParser<E extends PartType> {
             indexes.addAll(findAllIndexes(s, reservedWord));
         }
 
+        if (reservedWords.length == 1) {
+            indexes.add(new PartIndex(reservedWords[0], s.length()));
+        }
+
         Collections.sort(indexes);
 
         return mergeConflicts(indexes);
