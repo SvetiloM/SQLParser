@@ -71,7 +71,7 @@ public class ConnectionParser implements Parser<Connection> {
 
             return connection;
         } else {
-            commonComparisonParser.parse(part.getPart()).ifPresent(connection::setLeft);
+            commonComparisonParser.parse(part.getPart()).ifPresent(connection::setRight);
         }
         return connection;
     }

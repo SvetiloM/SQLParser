@@ -4,6 +4,7 @@ package sm.sql.parser.entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.beans.Transient;
 import java.io.Serializable;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class Select implements Source, Serializable {
     private Integer offset;
 
     @Override
+    @Transient
     public String getName() {
         return "";
     }

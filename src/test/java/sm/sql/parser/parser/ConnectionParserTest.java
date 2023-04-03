@@ -28,6 +28,7 @@ public class ConnectionParserTest {
 
         return Stream.of(
                 Arguments.of("a>b and b>c", connectionGenerator(aMoreB, bMoreC, Connection.ConnectionType.AND)),
+                Arguments.of("a>b or b>c", connectionGenerator(aMoreB, bMoreC, Connection.ConnectionType.OR)),
                 Arguments.of("a>b and b>c and f>c", connectionGenerator(aMoreB, connectionGenerator(bMoreC, fMoreC, Connection.ConnectionType.AND), Connection.ConnectionType.AND)),
                 Arguments.of("a>b and b>c or f>c", connectionGenerator(
                         connectionGenerator(aMoreB, bMoreC, Connection.ConnectionType.AND),
