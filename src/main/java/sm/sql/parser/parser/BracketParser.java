@@ -17,7 +17,7 @@ public class BracketParser implements Parser<List<String>> {
     }
 
     private List<PartParser.Interval> getIntervals(String s) {
-        char openBracket = '('; //todo to enum?
+        char openBracket = '(';
         char closeBracket = ')';
 
         List<PartParser.Interval> intervals = new ArrayList<>();

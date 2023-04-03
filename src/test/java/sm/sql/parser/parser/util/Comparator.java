@@ -110,8 +110,8 @@ public class Comparator {
         boolean firsts = compareSources(join.getFirst(), expectedJoin.getFirst());
         boolean seconds = compareSources(join.getSecond(), expectedJoin.getSecond());
         boolean types = join.getJoinType().equals(expectedJoin.getJoinType());
-        boolean comparsions = compareComparisons(join.getComparison(), expectedJoin.getComparison());
-        return firsts && seconds && types && comparsions;
+        boolean comparisons = compareComparisons(join.getComparison(), expectedJoin.getComparison());
+        return firsts && seconds && types && comparisons;
     }
 
     public static boolean compareSelects(Select select, Select expectedSelect) {
@@ -149,6 +149,7 @@ public class Comparator {
     }
 
     public static boolean compareComparisons(Comparison comparison, Comparison expectedComparison) {
+        if (comparison == null && expectedComparison == null) return true;
         boolean lefts = compareColumns(comparison.getLeft(), expectedComparison.getLeft());
         boolean rights = false;
         if (comparison.getRight() instanceof Column && expectedComparison.getRight() instanceof Column) {

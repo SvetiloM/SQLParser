@@ -65,23 +65,37 @@ public class JoinParser implements Parser {
 
     private Join fillFirst(Part part, Join join) {
         if (join.getFirst() != null) {
-            if (comparisonParser.parse(part.getPart()).isPresent()) {
-                Join inner = new Join();
-                //todo copy
-                inner.setFirst(join.getFirst());
-                inner.setSecond(join.getSecond());
-                inner.setJoinType(join.getJoinType());
-                inner.setComparison(join.getComparison());
-                join.setFirst(inner);
-                join.setSecond(null);
-                join.setComparison(null);
-                join.setJoinType(null);
-
-                return join;
+            if (join.getSecond() != null)
+            {
+                Optional<Source> optional = tableParser.parse(part.getPart());
+                if (optional.isPresent()) {
+                    if(optional.get().getName().equals(join.getSecond().getName())) {
+                        return wrapJoin(join);
+                    }
+                }
             }
+            if (comparisonParser.parse(part.getPart()).isPresent()) {
+                return wrapJoin(join);
+            }
+
         } else {
             tableParser.parse(part.getPart()).ifPresent(join::setFirst);
         }
+        return join;
+    }
+
+    private Join wrapJoin(Join join) {
+        Join inner = new Join();
+        inner.setFirst(join.getFirst());
+        inner.setSecond(join.getSecond());
+        inner.setJoinType(join.getJoinType());
+        inner.setComparison(join.getComparison());
+
+        join.setFirst(inner);
+        join.setSecond(null);
+        join.setComparison(null);
+        join.setJoinType(null);
+
         return join;
     }
 }

@@ -14,7 +14,6 @@ import static sm.sql.parser.parser.util.Comparator.*;
 
 public class TableParserTest {
 
-    //todo add source to cache
     public static Stream<Arguments> source() {
         return Stream.of(
                 Arguments.of("1 as 2", tableGenerator("1", "2")),
