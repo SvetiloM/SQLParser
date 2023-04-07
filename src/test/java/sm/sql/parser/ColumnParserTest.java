@@ -1,16 +1,17 @@
-package sm.sql.parser.parser;
+package sm.sql.parser;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import sm.sql.parser.entity.Column;
+import sm.sql.parser.parser.ColumnParser;
 
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static sm.sql.parser.parser.util.Comparator.columnGenerator;
-import static sm.sql.parser.parser.util.Comparator.compareColumns;
+import static sm.sql.parser.util.Comparator.columnGenerator;
+import static sm.sql.parser.util.Comparator.compareColumns;
 
 public class ColumnParserTest {
 

@@ -1,4 +1,4 @@
-package sm.sql.parser.parser;
+package sm.sql.parser;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -8,12 +8,16 @@ import sm.sql.parser.entity.Comparison;
 import sm.sql.parser.entity.Join;
 import sm.sql.parser.entity.Source;
 import sm.sql.parser.entity.Table;
+import sm.sql.parser.parser.ColumnParser;
+import sm.sql.parser.parser.ComparisonParser;
+import sm.sql.parser.parser.JoinParser;
+import sm.sql.parser.parser.TableParser;
 
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import static sm.sql.parser.parser.util.Comparator.*;
+import static sm.sql.parser.util.Comparator.*;
 
 public class JoinParserTest {
 

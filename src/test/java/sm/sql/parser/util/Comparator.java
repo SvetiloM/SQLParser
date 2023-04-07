@@ -1,4 +1,4 @@
-package sm.sql.parser.parser.util;
+package sm.sql.parser.util;
 
 import sm.sql.parser.entity.*;
 
